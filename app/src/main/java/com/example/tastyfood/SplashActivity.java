@@ -24,6 +24,7 @@ public class SplashActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         runnable = new Runnable() {
             @Override
             public void run() {
@@ -32,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         };
-        handler.postDelayed(runnable, 7000);
+        handler.postDelayed(runnable, 3000);
     }
 
     @Override
