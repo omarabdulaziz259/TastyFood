@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "956128930830",
+    "project_id": "tastyfood-416df",
+    "storage_bucket": "tastyfood-416df.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:956128930830:android:30ee7c21f2ba09f8fda05f",
+        "android_client_info": {
+          "package_name": "com.example.tastyfood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "956128930830-sni3p9g5qhrgjpia9fsrcskc0ijs18ra.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tastyfood",
+            "certificate_hash": "9cd4e33defa9079235c6c262f4ce5104f83012d1"
+          }
+        },
+        {
+          "client_id": "956128930830-h7a405nlgrok6fs37jf8s468v6s0i913.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJjMvysN-gKjICsHf6cfDZbkgT9eo8RGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "956128930830-h7a405nlgrok6fs37jf8s468v6s0i913.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
