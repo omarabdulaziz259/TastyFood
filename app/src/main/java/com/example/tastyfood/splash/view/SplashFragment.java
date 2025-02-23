@@ -15,36 +15,25 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tastyfood.R;
+import com.example.tastyfood.splash.model.SplashNavigator;
+import com.example.tastyfood.splash.presenter.SplashPresenter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SplashFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class SplashFragment extends Fragment {
 
-    private Handler handler = new Handler();
-    private Runnable runnable;
+public class SplashFragment extends Fragment implements SplashNavigator {
 
-    private FirebaseAuth mAuth;
-    NavController navController;
+    private NavController navController;
+    private SplashPresenter splashPresenter;
 
-    public SplashFragment() {
-        // Required empty public constructor
-    }
+    public SplashFragment() {}
 
-    public static SplashFragment newInstance() {
-        SplashFragment fragment = new SplashFragment();
-
-        return fragment;
-    }
+    public static SplashFragment newInstance() {return new SplashFragment();}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();
+        splashPresenter = new SplashPresenter(this);
     }
 
     @Override
@@ -55,28 +44,27 @@ public class SplashFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        navController = Navigation.findNavController(view);
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                if(currentUser != null){
-//            todo: go to home
-                    navController.navigate(R.id.action_splashFragment_to_userProfileFragment);
-                }else {
-                    navController.navigate(R.id.action_splashFragment_to_welcomeFragment);
-                }
-            }
-        };
-        handler.postDelayed(runnable, 2500);
         super.onViewCreated(view, savedInstanceState);
+        navController = Navigation.findNavController(view);
+        splashPresenter.goToNextScreen();
     }
+
 
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        handler.removeCallbacks(runnable);
+        splashPresenter.removeHandlerCallbacks();
+    }
+
+    @Override
+    public void navigateToWelcome() {
+        navController.navigate(R.id.action_splashFragment_to_welcomeFragment);
+    }
+
+    @Override
+    public void navigateToHome() {
+//            todo: go to home
+        navController.navigate(R.id.action_splashFragment_to_userProfileFragment);
     }
 }

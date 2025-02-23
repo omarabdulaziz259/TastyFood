@@ -15,17 +15,18 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.tastyfood.R;
+import com.example.tastyfood.user_profile.presenter.UserProfilePresenter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
 public class UserProfileFragment extends Fragment {
 
-    FirebaseAuth mAuth;
+
     Button btnSignOutFromApp;
     TextView txtEmailUserProfile;
-    FirebaseUser user;
     NavController navController;
+    UserProfilePresenter userProfilePresenter;
 
     public UserProfileFragment() {
         // Required empty public constructor
@@ -40,9 +41,7 @@ public class UserProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
-
+        userProfilePresenter = new UserProfilePresenter();
     }
 
     @Override
@@ -58,14 +57,10 @@ public class UserProfileFragment extends Fragment {
         btnSignOutFromApp = view.findViewById(R.id.btnSignOutFromApp);
         txtEmailUserProfile = view.findViewById(R.id.txtEmailUserProfile);
         navController = Navigation.findNavController(view);
-        if (user == null){
-            navController.navigate(R.id.action_userProfileFragment_to_welcomeFragment);
-        }else {
-            txtEmailUserProfile.setText(user.getEmail());
+        txtEmailUserProfile.setText(userProfilePresenter.getEmail());
 
-        }
         btnSignOutFromApp.setOnClickListener(v -> {
-            mAuth.signOut();
+            userProfilePresenter.signOut();
             navController.navigate(R.id.action_userProfileFragment_to_welcomeFragment);
         });
     }

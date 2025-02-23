@@ -103,6 +103,7 @@ public class WelcomeFragment extends Fragment {
     private void signIn() {
         Intent signInIntent = googleSignInClient.getSignInIntent();
         googleSignInLauncher.launch(signInIntent);
+        //todo download favourite and calendered meals from firebase
     }
 
     private void firebaseAuthWithGoogle(String idToken) {

@@ -17,35 +17,35 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.tastyfood.R;
+import com.example.tastyfood.sign_in.model.SignInNavigator;
+import com.example.tastyfood.sign_in.presenter.SignInPresenter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class SignInFragment extends Fragment {
+public class SignInFragment extends Fragment implements SignInNavigator {
 
 
-    private static final String TAG = "SignInFragment";
-    private FirebaseAuth mAuth;
-    NavController navController;
+    private NavController navController;
 
     EditText txtEditEmail, txtEditPassword;
     Button btnSignInToApp;
+    SignInPresenter signInPresenter;
     public SignInFragment() {
         // Required empty public constructor
     }
 
     public static SignInFragment newInstance() {
-        SignInFragment fragment = new SignInFragment();
-        return fragment;
+        return new SignInFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();
-
+        signInPresenter = new SignInPresenter(this);
     }
 
     @Override
@@ -58,6 +58,7 @@ public class SignInFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         navController = Navigation.findNavController(view);
         txtEditEmail = view.findViewById(R.id.txtEditEmail);
         txtEditPassword = view.findViewById(R.id.txtEditPassword);
@@ -67,38 +68,24 @@ public class SignInFragment extends Fragment {
             String email = String.valueOf(txtEditEmail.getText());
             String password = String.valueOf(txtEditPassword.getText());
 
-            if (email.isEmpty()){
-                Toast.makeText(getContext(), "Please Input Your E-mail", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (password.isEmpty()){
-                Toast.makeText(getContext(), "Please Input Your Password", Toast.LENGTH_SHORT).show();
-                return;
+            Boolean isUserInputsValid = signInPresenter.validateUserInputs(email, password);
+
+            if (isUserInputsValid){
+                signInPresenter.signIn(email, password);
             }
 
-            mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "signInWithEmail:success");
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                Toast.makeText(getContext(), "Authentication successful.",
-                                        Toast.LENGTH_SHORT).show();
-                                navController.navigate(R.id.action_signInFragment_to_userProfileFragment);
-                                //Todo after sign in successful
-
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                Toast.makeText(getContext(), "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                                //Todo after sign in failed
-                            }
-                        }
-                    });
 
         });
+    }
+
+    @Override
+    public void onSignInSuccess() {
+        navController.navigate(R.id.action_signInFragment_to_userProfileFragment);
+        //Todo after sign in successful
+    }
+
+    @Override
+    public void onSignInFailed(String msg) {
+        Snackbar.make(getView(), msg, Snackbar.LENGTH_SHORT).show();
     }
 }
