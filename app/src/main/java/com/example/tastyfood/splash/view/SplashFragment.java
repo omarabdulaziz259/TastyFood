@@ -2,14 +2,12 @@ package com.example.tastyfood.splash.view;
 
 import android.os.Bundle;
 
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +15,6 @@ import android.view.ViewGroup;
 import com.example.tastyfood.R;
 import com.example.tastyfood.splash.model.SplashNavigator;
 import com.example.tastyfood.splash.presenter.SplashPresenter;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 
 public class SplashFragment extends Fragment implements SplashNavigator {
@@ -46,7 +42,7 @@ public class SplashFragment extends Fragment implements SplashNavigator {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
-        splashPresenter.goToNextScreen();
+        splashPresenter.navigateToNextScreen();
     }
 
 
@@ -64,7 +60,6 @@ public class SplashFragment extends Fragment implements SplashNavigator {
 
     @Override
     public void navigateToHome() {
-//            todo: go to home
-        navController.navigate(R.id.action_splashFragment_to_userProfileFragment);
+        navController.navigate(R.id.action_splashFragment_to_homeFragment);
     }
 }

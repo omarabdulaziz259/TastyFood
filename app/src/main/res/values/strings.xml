@@ -14,4 +14,12 @@
     <string name="password_confirmation">Password Confirmation</string>
     <string name="sign_out">Sign Out</string>
     <string name="client_id">956128930830-h7a405nlgrok6fs37jf8s468v6s0i913.apps.googleusercontent.com</string>
+    <string name="suggested_meal_of_the_day">Suggested Meal Of The Day</string>
+    <string name="tasty_picks">Tasty Picks</string>
+    <string name="mealofthedayid">mealOfTheDayId</string>
+    <string name="dayofrecentmealoftheday">dayOfRecentMealOfTheDay</string>
+    <string name="mealoftheday">MealOfTheDay</string>
+    <string name="error">Error</string>
+    <string name="something_went_wrong">Something Went Wrong</string>
+    <string name="close">close</string>
 </resources>

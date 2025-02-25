@@ -80,8 +80,8 @@ public class SignInFragment extends Fragment implements SignInNavigator {
 
     @Override
     public void onSignInSuccess() {
-        navController.navigate(R.id.action_signInFragment_to_userProfileFragment);
-        //Todo after sign in successful
+        navController.navigate(R.id.action_signInFragment_to_homeFragment);
+        //Todo after sign in successful - download from firebase the data of this user
     }
 
     @Override

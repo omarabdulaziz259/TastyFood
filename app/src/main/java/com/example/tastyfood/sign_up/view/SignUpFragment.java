@@ -74,7 +74,7 @@ public class SignUpFragment extends Fragment implements SignUpNavigator {
 
     @Override
     public void onSignUpSuccess() {
-        navController.navigate(R.id.action_signUpFragment_to_userProfileFragment);
+        navController.navigate(R.id.action_signUpFragment_to_homeFragment);
     }
 
     @Override

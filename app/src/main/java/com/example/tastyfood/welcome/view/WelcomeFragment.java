@@ -120,7 +120,7 @@ public class WelcomeFragment extends Fragment {
     }
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            navController.navigate(R.id.action_welcomeFragment_to_userProfileFragment);
+            navController.navigate(R.id.action_welcomeFragment_to_homeFragment);
         } else {
             Toast.makeText(requireContext(), "Sign-In Failed", Toast.LENGTH_SHORT).show();
         }

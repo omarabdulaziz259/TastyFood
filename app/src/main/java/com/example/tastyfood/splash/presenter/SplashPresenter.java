@@ -18,7 +18,7 @@ public class SplashPresenter {
         handler = new Handler();
     }
 
-    public void goToNextScreen(){
+    public void navigateToNextScreen(){
         FirebaseUser currentUser = mAuth.getCurrentUser();
         runnable = new Runnable() {
             @Override
