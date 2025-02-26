@@ -1,7 +1,6 @@
 package com.example.tastyfood.model.network;
 
 import com.example.tastyfood.model.Meal;
-import com.example.tastyfood.model.MealDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

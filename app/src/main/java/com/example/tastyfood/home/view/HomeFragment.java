@@ -1,4 +1,4 @@
-package com.example.tastyfood.home;
+package com.example.tastyfood.home.view;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -25,17 +25,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.tastyfood.home.model.HomeNavigator;
+import com.example.tastyfood.home.presenter.HomePresenter;
+import com.example.tastyfood.home.model.SingleMealViewer;
 import com.example.tastyfood.mainActivity.view.MainActivity;
 import com.example.tastyfood.R;
 import com.example.tastyfood.model.Meal;
 import com.example.tastyfood.model.MealListViewer;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.tastyfood.model.database.MealLocalDataSource;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements SingleMealViewer, MealListViewer, HomeNavigator{
+public class HomeFragment extends Fragment implements SingleMealViewer, MealListViewer, HomeNavigator {
     private String SHARED_PREFERENCES_NAME;
     private String SHARED_PREFERENCES_MEAL_ID;
     private String SHARED_PREFERENCES_MEAL_DATE;
@@ -110,7 +113,8 @@ public class HomeFragment extends Fragment implements SingleMealViewer, MealList
 
     private HomePresenter setupHomePresenter(){
         SharedPreferences sharedPref = getActivity().getSharedPreferences(SHARED_PREFERENCES_NAME,Context.MODE_PRIVATE);
-        return new HomePresenter(sharedPref, SHARED_PREFERENCES_MEAL_ID, SHARED_PREFERENCES_MEAL_DATE);
+        return new HomePresenter(sharedPref, SHARED_PREFERENCES_MEAL_ID, SHARED_PREFERENCES_MEAL_DATE,
+                MealLocalDataSource.getDatabaseManager(requireContext()));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

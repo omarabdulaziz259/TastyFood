@@ -1,6 +1,6 @@
-package com.example.tastyfood.model;
+package com.example.tastyfood.model.network;
 
-import com.google.gson.JsonArray;
+import com.example.tastyfood.model.Meal;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -8,7 +8,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 
 public class MealDeserializer implements JsonDeserializer<Meal> {
     @Override

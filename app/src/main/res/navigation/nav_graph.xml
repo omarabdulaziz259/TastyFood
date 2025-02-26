@@ -68,7 +68,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.tastyfood.home.HomeFragment"
+        android:name="com.example.tastyfood.home.view.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action

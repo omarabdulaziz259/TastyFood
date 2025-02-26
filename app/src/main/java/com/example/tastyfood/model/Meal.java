@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(tableName = "Meals")
+@Entity(tableName = "MealDetails")
 public class Meal implements Serializable {
     @PrimaryKey
     @NonNull

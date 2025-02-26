@@ -17,17 +17,13 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.tastyfood.R;
-import com.example.tastyfood.home.HomeAdapter;
 import com.example.tastyfood.model.Meal;
 import com.example.tastyfood.util.CountryCode;
-
-import java.util.ArrayList;
 
 public class DetailedMealFragment extends Fragment {
     private ImageView imgDetailedMeal, imgDetailedMealArea, imgDetailedMealCategory;

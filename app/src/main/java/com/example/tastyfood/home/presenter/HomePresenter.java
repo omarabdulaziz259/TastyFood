@@ -1,13 +1,15 @@
-package com.example.tastyfood.home;
+package com.example.tastyfood.home.presenter;
 
 import android.content.SharedPreferences;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.tastyfood.home.model.SingleMealViewer;
 import com.example.tastyfood.model.Meal;
 import com.example.tastyfood.model.MealListViewer;
 import com.example.tastyfood.model.MealRepository;
+import com.example.tastyfood.model.database.MealLocalDataSource;
 
 import java.time.LocalDate;
 
@@ -18,9 +20,9 @@ public class HomePresenter {
     private String sharedPrefDayOfRecentMealOfTheDay;
 
     public HomePresenter(SharedPreferences sharedPref, String sharedPrefMealOfTheDayId,
-                         String sharedPrefDayOfRecentMealOfTheDay){
+                         String sharedPrefDayOfRecentMealOfTheDay, MealLocalDataSource mealLocalDataSource){
 
-        mealRepository = MealRepository.getInstance();
+        mealRepository = MealRepository.getInstance(mealLocalDataSource);
         this.sharedPref = sharedPref;
         this.sharedPrefMealOfTheDayId = sharedPrefMealOfTheDayId;
         this.sharedPrefDayOfRecentMealOfTheDay = sharedPrefDayOfRecentMealOfTheDay;
