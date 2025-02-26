@@ -8,23 +8,17 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.example.tastyfood.mainActivity.view.MainActivity;
 import com.example.tastyfood.R;
 import com.example.tastyfood.sign_in.model.SignInNavigator;
 import com.example.tastyfood.sign_in.presenter.SignInPresenter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class SignInFragment extends Fragment implements SignInNavigator {
 
@@ -40,6 +34,12 @@ public class SignInFragment extends Fragment implements SignInNavigator {
 
     public static SignInFragment newInstance() {
         return new SignInFragment();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) requireActivity()).setBottomNavVisibility(false);
     }
 
     @Override

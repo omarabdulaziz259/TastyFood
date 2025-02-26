@@ -7,7 +7,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Retrofit;
 
 import com.example.tastyfood.home.SingleMealViewer;
-import com.example.tastyfood.model.database.MealLocalDataSource;
 import com.example.tastyfood.model.network.CategoryResponse;
 import com.example.tastyfood.model.network.MealApiService;
 import com.example.tastyfood.model.network.MealRemoteDataSource;
@@ -52,8 +51,8 @@ public class MealRepository {
     public void getMealsByFirstLetter(MealListViewer mealListViewer, char firstLetter){
         Single<MealResponse> call = apiService.getMealsByFirstLetter(firstLetter);
         call.compose(customSchedulers).subscribe(
-                response -> mealListViewer.onSuccess(response.getMeals()),
-                onError -> mealListViewer.onFailed()
+                response -> mealListViewer.showMealsList(response.getMeals()),
+                onError -> mealListViewer.onFailed(onError.getLocalizedMessage())
         );
     }
     public void getMealById(SingleMealViewer singleMealViewer, String mealID){

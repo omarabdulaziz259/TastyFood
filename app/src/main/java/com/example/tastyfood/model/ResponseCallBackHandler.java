@@ -4,7 +4,7 @@ import java.util.List;
 
 //todo
 public interface ResponseCallBackHandler {
-//    void onSuccess(List<Meal> mealList);
+//    void showMealsList(List<Meal> mealList);
     void onFailed();
 
 }

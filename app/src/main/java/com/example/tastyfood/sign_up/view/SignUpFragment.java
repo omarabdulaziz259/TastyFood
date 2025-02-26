@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.tastyfood.mainActivity.view.MainActivity;
 import com.example.tastyfood.R;
 import com.example.tastyfood.sign_up.model.SignUpNavigator;
 import com.example.tastyfood.sign_up.presenter.SignUpPresenter;
@@ -80,5 +81,11 @@ public class SignUpFragment extends Fragment implements SignUpNavigator {
     @Override
     public void onSignUpFailed(String msg) {
         Snackbar.make(getView(), msg, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) requireActivity()).setBottomNavVisibility(false);
     }
 }

@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.tastyfood.mainActivity.presenter.MainActivityPresenter;
+import com.example.tastyfood.mainActivity.view.MainActivity;
 import com.example.tastyfood.R;
 import com.example.tastyfood.user_profile.presenter.UserProfilePresenter;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 
 public class UserProfileFragment extends Fragment {
@@ -52,15 +52,26 @@ public class UserProfileFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) requireActivity()).setBottomNavVisibility(true);
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         btnSignOutFromApp = view.findViewById(R.id.btnSignOutFromApp);
         txtEmailUserProfile = view.findViewById(R.id.txtEmailUserProfile);
         navController = Navigation.findNavController(view);
         txtEmailUserProfile.setText(userProfilePresenter.getEmail());
+        if (!MainActivityPresenter.validateUser()){
+            btnSignOutFromApp.setText(getString(R.string.sign_in) + "\\" + getString(R.string.sign_up));
+        }
 
         btnSignOutFromApp.setOnClickListener(v -> {
-            userProfilePresenter.signOut();
+            if (MainActivityPresenter.validateUser()){
+                userProfilePresenter.signOut();
+            }
             navController.navigate(R.id.action_userProfileFragment_to_welcomeFragment);
         });
     }

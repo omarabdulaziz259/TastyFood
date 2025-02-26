@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.tastyfood.mainActivity.view.MainActivity;
 import com.example.tastyfood.R;
 import com.example.tastyfood.splash.model.SplashNavigator;
 import com.example.tastyfood.splash.presenter.SplashPresenter;
@@ -45,7 +46,11 @@ public class SplashFragment extends Fragment implements SplashNavigator {
         splashPresenter.navigateToNextScreen();
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) requireActivity()).setBottomNavVisibility(false);
+    }
 
     @Override
     public void onDestroy() {

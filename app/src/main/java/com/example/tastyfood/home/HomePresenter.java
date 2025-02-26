@@ -6,6 +6,7 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import com.example.tastyfood.model.Meal;
+import com.example.tastyfood.model.MealListViewer;
 import com.example.tastyfood.model.MealRepository;
 
 import java.time.LocalDate;
@@ -53,5 +54,7 @@ public class HomePresenter {
         editor.apply();
     }
 
-
+    public void getTopPicksMeals(MealListViewer mealListViewer){
+        mealRepository.getMealsByFirstLetter(mealListViewer, 'K');
+    }
 }

@@ -18,7 +18,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tastyfood.mainActivity.view.MainActivity;
 import com.example.tastyfood.R;
+import com.example.tastyfood.welcome.model.WelcomeNavigator;
+import com.example.tastyfood.welcome.presenter.WelcomePresenter;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -31,8 +34,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 
-public class WelcomeFragment extends Fragment {
+public class WelcomeFragment extends Fragment implements WelcomeNavigator {
 
+//    WelcomePresenter welcomePresenter;
     FirebaseAuth  mAuth;
     GoogleSignInClient googleSignInClient;
     private ActivityResultLauncher<Intent> googleSignInLauncher;
@@ -66,6 +70,7 @@ public class WelcomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+//        welcomePresenter = new WelcomePresenter();
         navController = Navigation.findNavController(view);
         mAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -94,10 +99,13 @@ public class WelcomeFragment extends Fragment {
         btnSignInWithGoogle = view.findViewById(R.id.btnSignInWithGoogle);
         txtSignUp = view.findViewById(R.id.txtSignUp);
         NavController navController = Navigation.findNavController(view);
+        
         btnSignInWithEmail.setOnClickListener(v -> navController.navigate(R.id.action_welcomeFragment_to_signInFragment));
         txtSignUp.setOnClickListener(v -> navController.navigate(R.id.action_welcomeFragment_to_signUpFragment));
 
         btnSignInWithGoogle.setOnClickListener(v -> signIn());
+        btnAsAGuest.setOnClickListener(v -> WelcomePresenter.navigateToNextScreen(this));
+        
     }
 
     private void signIn() {
@@ -126,4 +134,15 @@ public class WelcomeFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) requireActivity()).setBottomNavVisibility(false);
+
+    }
+
+    @Override
+    public void navigateToHome() {
+        navController.navigate(R.id.action_welcomeFragment_to_homeFragment);
+    }
 }

@@ -1,13 +1,10 @@
 package com.example.tastyfood.home;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,7 +12,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.tastyfood.R;
 import com.example.tastyfood.model.Meal;
 
@@ -29,7 +25,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder>{
         this.context = context;
         this.mealList = mealList;
     }
-    public void setProductList(List<Meal> mealList) {
+    public void setMealsList(List<Meal> mealList) {
         this.mealList = mealList;
         notifyDataSetChanged();
     }
@@ -49,7 +45,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder>{
             //todo navigate to detailed page
         });
         Glide.with(context).load(mealList.get(position).getStrMealThumb())
-//                .apply(new RequestOptions().override(400, 400))
                 .placeholder(R.drawable.logo)
                 .error(R.drawable.error)
                 .into(holder.imgCell);

@@ -10,11 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +23,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.tastyfood.mainActivity.view.MainActivity;
 import com.example.tastyfood.R;
 import com.example.tastyfood.model.Meal;
+import com.example.tastyfood.model.MealListViewer;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class HomeFragment extends Fragment implements SingleMealViewer{
+public class HomeFragment extends Fragment implements SingleMealViewer, MealListViewer {
     private String SHARED_PREFERENCES_NAME;
     private String SHARED_PREFERENCES_MEAL_ID;
     private String SHARED_PREFERENCES_MEAL_DATE;
@@ -38,8 +42,6 @@ public class HomeFragment extends Fragment implements SingleMealViewer{
     private RecyclerView recycleViewHome;
     private CardView cardMealOfTheDay;
     private HomeAdapter homeAdapter;
-    private ConstraintLayout errorConstraintLayout;
-    private Button btnErrorClose;
     private HomePresenter homePresenter;
     public HomeFragment() {
         // Required empty public constructor
@@ -58,6 +60,16 @@ public class HomeFragment extends Fragment implements SingleMealViewer{
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("TAG", "onResume: we are here");
+        ((MainActivity) requireActivity()).makeHomeItemSelectedOnBottomNav();
+        ((MainActivity) requireActivity()).setBottomNavVisibility(true);
+        Log.i("TAG", "onResume: now we are here");
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
@@ -71,12 +83,11 @@ public class HomeFragment extends Fragment implements SingleMealViewer{
 
         homePresenter = setupHomePresenter();
 
-        errorConstraintLayout = view.findViewById(R.id.errorConstraintLayout);
-        btnErrorClose = view.findViewById(R.id.btnErrorClose);
-
         imgMealOfTheDay = view.findViewById(R.id.imgMealOfTheDay);
-        cardMealOfTheDay = view.findViewById(R.id.cardMealOfTheDay);
         txtNameMealOfTheDay = view.findViewById(R.id.txtNameMealOfTheDay);
+        cardMealOfTheDay = view.findViewById(R.id.cardMealOfTheDay);
+
+        homePresenter.getMealOfTheDay(this);
 
         recycleViewHome = view.findViewById(R.id.recycleViewHome);
         recycleViewHome.setHasFixedSize(true);
@@ -85,8 +96,9 @@ public class HomeFragment extends Fragment implements SingleMealViewer{
         recycleViewHome.setLayoutManager(layoutManager);
         homeAdapter = new HomeAdapter(requireContext(), new ArrayList<>());
         recycleViewHome.setAdapter(homeAdapter);
-        homePresenter.getMealOfTheDay(this);
-        //todo cardMealOfTheDay.setOnClickListener();
+        homePresenter.getTopPicksMeals(this);
+
+        //todo cardMealOfTheDay.setOnClickListener(v -> );
 
     }
 
@@ -99,7 +111,6 @@ public class HomeFragment extends Fragment implements SingleMealViewer{
     @Override
     public void showSingleMeal(Meal meal) {
         Glide.with(this).load(meal.getStrMealThumb())
-//                .apply(new RequestOptions().override(400, 400))
                 .placeholder(R.drawable.logo)
                 .error(R.drawable.error)
                 .into(imgMealOfTheDay);
@@ -110,16 +121,33 @@ public class HomeFragment extends Fragment implements SingleMealViewer{
 
     @Override
     public void showError(String msg) {
-        View view = LayoutInflater.from(requireContext()).inflate(R.layout.error_dialog, errorConstraintLayout);
+        showErrorDialog(msg);
+    }
+
+    @Override
+    public void showMealsList(List<Meal> mealList) {
+        homeAdapter.setMealsList(mealList);
+    }
+
+    @Override
+    public void onFailed(String msg) {
+        showErrorDialog(msg);
+    }
+    private void showErrorDialog(String msg){
+        View view = LayoutInflater.from(requireContext()).inflate(R.layout.error_dialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setView(view);
         final AlertDialog alertDialog = builder.create();
-        btnErrorClose.setOnClickListener(
-                v -> {
-                    alertDialog.dismiss();
-                    Snackbar.make(requireView(), "alert Dialog clossed", Snackbar.LENGTH_SHORT).show();
-                }
-        );
 
+        Button btnErrorClose = view.findViewById(R.id.btnErrorClose);
+        TextView txtErrorDesc = view.findViewById(R.id.txtErrorDesc);
+        txtErrorDesc.setText(msg);
+        btnErrorClose.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            Snackbar.make(requireView(), "Alert Dialog Closed", Snackbar.LENGTH_SHORT).show();
+        });
+
+        alertDialog.show();
     }
+
 }

@@ -13,7 +13,12 @@ public class UserProfilePresenter {
     }
 
     public String getEmail(){
-        return user.getEmail();
+        if (user != null){
+            return user.getEmail();
+        }
+        else {
+            return "Please Login Here";
+        }
     }
 
     public void signOut() {
