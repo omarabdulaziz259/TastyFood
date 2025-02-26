@@ -59,6 +59,8 @@
         android:layout_marginTop="30dp"
         android:fontFamily="@font/poppins_bold"
         android:text="@string/tasty_picks"
+        android:textSize="20sp"
+        android:textStyle="bold"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardMealOfTheDay" />

@@ -8,6 +8,9 @@
     <style name="Theme.MyApp" parent="Theme.MaterialComponents.DayNight">
         <item name="android:fontFamily">@font/poppins</item>
     </style>
+    <style name="bottom.nav.custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/primaryColor</item>
+    </style>
     <style name="CustomTextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/text_input_box_stroke</item>
         <item name="android:textColorHint">@color/text_input_box_stroke</item>

@@ -13,5 +13,10 @@ public interface MealApiService {
     Single<MealResponse> getRandomMeal();
     @GET("categories.php")
     Single<CategoryResponse> getCategories();
-
+    @GET("filter.php")
+    Single<MealResponse> getMealsFilteredByIngredient(@Query("i") String ingredient);
+    @GET("filter.php")
+    Single<MealResponse> getMealsFilteredByCategory(@Query("c") String strCategory);
+    @GET("filter.php")
+    Single<MealResponse> getMealsFilteredByCountry(@Query("a") String strArea);
 }

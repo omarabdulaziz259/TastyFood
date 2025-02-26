@@ -1,17 +1,8 @@
 package com.example.tastyfood.model;
 
 public class Category {
-    private String idCategory;
     private String strCategory;
     private String strCategoryThumb;
-
-    public String getIdCategory() {
-        return idCategory;
-    }
-
-    public void setIdCategory(String idCategory) {
-        this.idCategory = idCategory;
-    }
 
     public String getStrCategory() {
         return strCategory;

@@ -20,10 +20,12 @@ import java.util.List;
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder>{
     private final Context context;
     private List<Meal> mealList;
+    private HomeNavigator homeNavigator;
 
-    public HomeAdapter(Context context, List<Meal> mealList){
+    public HomeAdapter(Context context, List<Meal> mealList, HomeNavigator homeNavigator){
         this.context = context;
         this.mealList = mealList;
+        this.homeNavigator = homeNavigator;
     }
     public void setMealsList(List<Meal> mealList) {
         this.mealList = mealList;
@@ -42,7 +44,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.txtCellName.setText(mealList.get(position).getStrMeal());
         holder.constraintLayoutCell.setOnClickListener(v -> {
-            //todo navigate to detailed page
+            homeNavigator.navigateToDetailedMeal(mealList.get(position));
         });
         Glide.with(context).load(mealList.get(position).getStrMealThumb())
                 .placeholder(R.drawable.logo)

@@ -29,15 +29,15 @@ public class MealDeserializer implements JsonDeserializer<Meal> {
 
             if (jsonObject.has(ingredientKey) && !jsonObject.get(ingredientKey).isJsonNull()) {
                 String ingredient = jsonObject.get(ingredientKey).getAsString();
-//                if (!ingredient.isEmpty()) {
+                if (!ingredient.isEmpty()) {
                     meal.addIngredient(ingredient);
-//                }
+                }
             }
             if (jsonObject.has(measureKey) && !jsonObject.get(measureKey).isJsonNull()) {
                 String measure = jsonObject.get(measureKey).getAsString();
-//                if (!measure.isEmpty()) {
+                if (!measure.isEmpty()) {
                     meal.addMeasure(measure);
-//                }
+                }
             }
         }
 

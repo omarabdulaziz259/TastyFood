@@ -22,4 +22,8 @@
     <string name="error">Error</string>
     <string name="something_went_wrong">Something Went Wrong</string>
     <string name="close">close</string>
+    <string name="ingredients">Ingredients:</string>
+    <string name="watch_video">Watch Video:</string>
+    <string name="calender_it">Calender it</string>
+    <string name="love_it">Love it</string>
 </resources>

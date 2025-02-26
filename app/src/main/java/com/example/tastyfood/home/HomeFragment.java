@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,7 +35,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements SingleMealViewer, MealListViewer {
+public class HomeFragment extends Fragment implements SingleMealViewer, MealListViewer, HomeNavigator{
     private String SHARED_PREFERENCES_NAME;
     private String SHARED_PREFERENCES_MEAL_ID;
     private String SHARED_PREFERENCES_MEAL_DATE;
@@ -43,6 +45,8 @@ public class HomeFragment extends Fragment implements SingleMealViewer, MealList
     private CardView cardMealOfTheDay;
     private HomeAdapter homeAdapter;
     private HomePresenter homePresenter;
+    private Meal meal;
+    private NavController navController;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -94,12 +98,14 @@ public class HomeFragment extends Fragment implements SingleMealViewer, MealList
         LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
         recycleViewHome.setLayoutManager(layoutManager);
-        homeAdapter = new HomeAdapter(requireContext(), new ArrayList<>());
+        homeAdapter = new HomeAdapter(requireContext(), new ArrayList<>(), this);
         recycleViewHome.setAdapter(homeAdapter);
         homePresenter.getTopPicksMeals(this);
+        navController = Navigation.findNavController(view);
 
-        //todo cardMealOfTheDay.setOnClickListener(v -> );
-
+        cardMealOfTheDay.setOnClickListener(v -> {
+            navigateToDetailedMeal(meal);
+        });
     }
 
     private HomePresenter setupHomePresenter(){
@@ -110,6 +116,7 @@ public class HomeFragment extends Fragment implements SingleMealViewer, MealList
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void showSingleMeal(Meal meal) {
+        this.meal = meal;
         Glide.with(this).load(meal.getStrMealThumb())
                 .placeholder(R.drawable.logo)
                 .error(R.drawable.error)
@@ -150,4 +157,10 @@ public class HomeFragment extends Fragment implements SingleMealViewer, MealList
         alertDialog.show();
     }
 
+    @Override
+    public void navigateToDetailedMeal(Meal meal) {
+        HomeFragmentDirections.ActionHomeFragmentToDetailedMealFragment action =
+                HomeFragmentDirections.actionHomeFragmentToDetailedMealFragment(meal);
+        navController.navigate(action);
+    }
 }

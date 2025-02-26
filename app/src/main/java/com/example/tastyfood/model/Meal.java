@@ -4,11 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity(tableName = "Meals")
-public class Meal {
+public class Meal implements Serializable {
     @PrimaryKey
     @NonNull
     private String idMeal;
@@ -42,7 +43,7 @@ public class Meal {
         ingredients.add(ingredient);
     }
     public void addMeasure(String measure){
-        ingredients.add(measure);
+        measures.add(measure);
     }
     public String getIdMeal() {
         return idMeal;
