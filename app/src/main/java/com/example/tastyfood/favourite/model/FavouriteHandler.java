@@ -1,4 +1,4 @@
-package com.example.tastyfood.favourite;
+package com.example.tastyfood.favourite.model;
 
 import com.example.tastyfood.model.Meal;
 

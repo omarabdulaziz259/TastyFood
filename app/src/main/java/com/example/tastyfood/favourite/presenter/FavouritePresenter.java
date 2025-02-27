@@ -1,6 +1,7 @@
-package com.example.tastyfood.favourite;
+package com.example.tastyfood.favourite.presenter;
 
 
+import com.example.tastyfood.favourite.model.FavouriteHandler;
 import com.example.tastyfood.model.MealRepository;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -15,7 +16,7 @@ public class FavouritePresenter {
         this.favouriteHandler = favouriteHandler;
     }
 
-    void getFavMeals(){
+    public void getFavMeals(){
         repository.getStoredFavDetailedMeals().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

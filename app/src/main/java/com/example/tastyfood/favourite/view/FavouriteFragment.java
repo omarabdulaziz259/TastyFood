@@ -1,4 +1,4 @@
-package com.example.tastyfood.favourite;
+package com.example.tastyfood.favourite.view;
 
 import android.os.Bundle;
 
@@ -15,7 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tastyfood.R;
-import com.example.tastyfood.home.view.HomeFragmentDirections;
+import com.example.tastyfood.favourite.model.FavouriteHandler;
+import com.example.tastyfood.favourite.presenter.FavouritePresenter;
 import com.example.tastyfood.model.Meal;
 import com.example.tastyfood.model.MealRepository;
 import com.example.tastyfood.model.database.MealLocalDataSource;

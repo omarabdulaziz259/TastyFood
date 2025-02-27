@@ -8,6 +8,7 @@ import com.example.tastyfood.model.Meal;
 import com.example.tastyfood.model.MealRepository;
 import com.example.tastyfood.model.database.CalenderedMeal;
 import com.example.tastyfood.model.database.FavMeal;
+import com.example.tastyfood.util.UserValidation;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -27,14 +28,18 @@ public class DetailedMealPresenter {
 
     @SuppressLint("CheckResult")
     public void insertCalenderedMeal(Meal meal, String date){
+        if (UserValidation.validateUser()){
         insertMealToDB(meal);
         CalenderedMeal calenderedMeal = new CalenderedMeal(meal.getIdMeal(), date);
         mealRepository.insertCalenderedMeal(calenderedMeal).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         () -> mealSaver.calendaredMealSuccess(),
-                        error -> mealSaver.onFailed("There was an error occured please try again")
-                );
+                        error -> mealSaver.onFailed("There was an error occurred please try again")
+                );}
+        else {
+            mealSaver.onFailed("Please Sign up to enable this Feature");
+        }
     }
 
     @SuppressLint("CheckResult")
@@ -50,13 +55,17 @@ public class DetailedMealPresenter {
 
     @SuppressLint("CheckResult")
     public void insertFavMeal(Meal meal){
-        insertMealToDB(meal);
+        if (UserValidation.validateUser()){
+            insertMealToDB(meal);
         mealRepository.insertFavMeal(new FavMeal(meal.getIdMeal())).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         () -> mealSaver.insertingFavMealSuccess(),
                         error -> mealSaver.onFailed("There was an error occurred please try again")
-                );
+                );}
+        else {
+            mealSaver.onFailed("Please Sign up to enable this Feature");
+        }
     }
     @SuppressLint("CheckResult")
     public void deleteFavMeal(Meal meal){

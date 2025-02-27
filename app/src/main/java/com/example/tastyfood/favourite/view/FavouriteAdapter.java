@@ -1,4 +1,4 @@
-package com.example.tastyfood.favourite;
+package com.example.tastyfood.favourite.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.tastyfood.R;
+import com.example.tastyfood.favourite.model.FavouriteHandler;
 import com.example.tastyfood.model.Meal;
 
 import java.util.List;

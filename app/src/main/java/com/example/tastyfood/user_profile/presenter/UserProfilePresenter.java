@@ -43,5 +43,4 @@ public class UserProfilePresenter {
         UserValidation.getFireBaseAuth().signOut();
     }
 
-
 }
