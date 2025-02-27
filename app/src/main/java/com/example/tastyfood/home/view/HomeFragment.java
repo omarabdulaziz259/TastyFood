@@ -69,11 +69,8 @@ public class HomeFragment extends Fragment implements SingleMealViewer, MealList
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("TAG", "onResume: we are here");
         ((MainActivity) requireActivity()).makeHomeItemSelectedOnBottomNav();
         ((MainActivity) requireActivity()).setBottomNavVisibility(true);
-        Log.i("TAG", "onResume: now we are here");
-
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.tastyfood.mainActivity.presenter;
 
 import com.example.tastyfood.R;
 import com.example.tastyfood.mainActivity.model.MainActivityNavigator;
+import com.example.tastyfood.util.UserValidation;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,7 +24,7 @@ public class MainActivityPresenter {
             mainActivityNavigator.navigateToUserProfileScreen();
             return true;
         }
-        if (validateUser()){
+        if (UserValidation.validateUser()){
             if (itemId == R.id.nav_fav){
                 mainActivityNavigator.navigateToFavScreen();
             } else if (itemId == R.id.nav_search){
@@ -38,12 +39,5 @@ public class MainActivityPresenter {
         return true;
     };
 
-    public static boolean validateUser(){
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser == null){
-            return false;
-        }
-        return true;
-    }
+
 }

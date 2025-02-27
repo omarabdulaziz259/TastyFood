@@ -11,13 +11,11 @@ import io.reactivex.rxjava3.core.Maybe;
 
 public class MealLocalDataSource {
     private MealDao mealDao;
-//    private Flowable<List<FavMeal>> StoredFavMeals;
     private static MealLocalDataSource manger = null;
 
     private MealLocalDataSource(Context context){
         MealDatabase mealDatabase = MealDatabase.getInstance(context);
         mealDao = mealDatabase.getMealDao();
-//        StoredFavMeals = mealDao.getAllFavMeals();
     }
 
     public static MealLocalDataSource getDatabaseManager(Context _context){
@@ -41,6 +39,9 @@ public class MealLocalDataSource {
     public Maybe<List<Meal>> getStoredFavDetailedMeals(){
         return mealDao.getStoredFavDetailedMeals();
     }
+    public Completable clearMealDetails(){
+        return mealDao.clearMealDetails();
+    }
 
 
     //FavMeal
@@ -55,6 +56,9 @@ public class MealLocalDataSource {
     }
     public Completable deleteFavMeal(FavMeal favMeal){
         return mealDao.deleteFavMeal(favMeal);
+    }
+    public Completable clearFavMeal(){
+        return mealDao.clearFavMeals();
     }
 
     //CalendaredMeal
@@ -72,7 +76,9 @@ public class MealLocalDataSource {
     public Maybe<CalenderedMeal> getCalenderedMealById(String idMeal){
         return mealDao.getCalenderedMealById(idMeal);
     }
-
+    public Completable clearCalendarMeals(){
+        return mealDao.clearCalenderedMeals();
+    }
 
 }
 

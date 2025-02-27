@@ -93,6 +93,12 @@ public class MealRepository {
         return mealLocalDataSource.getCalenderedMealById(idMeal);
     }
 
+    public Completable clearAllSavedData(){
+        return Completable.mergeArray(mealLocalDataSource.clearMealDetails(),
+                mealLocalDataSource.clearCalendarMeals(),
+                mealLocalDataSource.clearFavMeal());
+    }
+
 
     //Remote
     public void getMealsByFirstLetter(MealListViewer mealListViewer, char firstLetter){

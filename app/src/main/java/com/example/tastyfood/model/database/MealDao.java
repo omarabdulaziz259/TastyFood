@@ -29,6 +29,12 @@ public interface MealDao {
     //Meal
     @Query("SELECT * FROM MealDetails INNER JOIN FavMeal ON MealDetails.idMeal = FavMeal.idMeal")
     Maybe<List<Meal>> getStoredFavDetailedMeals();
+    //meal
+    @Query("DELETE FROM MealDetails")
+    Completable clearMealDetails();
+
+
+
     //favMeal
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     Completable insertFavMeal(FavMeal favMeal);
@@ -41,6 +47,12 @@ public interface MealDao {
     //FavMeal
     @Delete
     Completable deleteFavMeal(FavMeal favMeal);
+    //favMeal
+    @Query("DELETE FROM FavMeal")
+    Completable clearFavMeals();
+
+
+
     //CalendarMeal
     @Delete
     Completable deleteCalenderedMeal(CalenderedMeal calenderedMeal);
@@ -52,6 +64,8 @@ public interface MealDao {
     Maybe<CalenderedMeal> getCalenderedMealByDate(String date);
     @Query("SELECT * FROM CalenderedMeal WHERE idMeal = :idMeal")
     Maybe<CalenderedMeal> getCalenderedMealById(String idMeal);
-
+    //calendarMeal
+    @Query("DELETE FROM CalenderedMeal")
+    Completable clearCalenderedMeals();
 
 }

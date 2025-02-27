@@ -17,16 +17,21 @@ import android.widget.TextView;
 import com.example.tastyfood.mainActivity.presenter.MainActivityPresenter;
 import com.example.tastyfood.mainActivity.view.MainActivity;
 import com.example.tastyfood.R;
+import com.example.tastyfood.model.MealRepository;
+import com.example.tastyfood.model.database.MealLocalDataSource;
+import com.example.tastyfood.user_profile.model.UserProfileHandler;
 import com.example.tastyfood.user_profile.presenter.UserProfilePresenter;
+import com.example.tastyfood.util.UserValidation;
+import com.google.android.material.snackbar.Snackbar;
 
 
-public class UserProfileFragment extends Fragment {
+public class UserProfileFragment extends Fragment implements UserProfileHandler {
 
 
-    Button btnSignOutFromApp;
-    TextView txtEmailUserProfile;
-    NavController navController;
-    UserProfilePresenter userProfilePresenter;
+    private Button btnSignOutFromApp;
+    private TextView txtEmailUserProfile;
+    private NavController navController;
+    private UserProfilePresenter userProfilePresenter;
 
     public UserProfileFragment() {
         // Required empty public constructor
@@ -41,7 +46,9 @@ public class UserProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userProfilePresenter = new UserProfilePresenter();
+        userProfilePresenter = new UserProfilePresenter(
+                MealRepository.getInstance(MealLocalDataSource.getDatabaseManager(getContext())),
+                this);
     }
 
     @Override
@@ -64,15 +71,26 @@ public class UserProfileFragment extends Fragment {
         txtEmailUserProfile = view.findViewById(R.id.txtEmailUserProfile);
         navController = Navigation.findNavController(view);
         txtEmailUserProfile.setText(userProfilePresenter.getEmail());
-        if (!MainActivityPresenter.validateUser()){
+        if (UserValidation.validateUser()){
             btnSignOutFromApp.setText(getString(R.string.sign_in) + "\\" + getString(R.string.sign_up));
         }
 
         btnSignOutFromApp.setOnClickListener(v -> {
-            if (MainActivityPresenter.validateUser()){
-                userProfilePresenter.signOut();
+            if (UserValidation.validateUser()){
+                userProfilePresenter.clearAllData();
+            }else {
+                navController.navigate(R.id.action_userProfileFragment_to_welcomeFragment);
             }
-            navController.navigate(R.id.action_userProfileFragment_to_welcomeFragment);
         });
+    }
+
+    @Override
+    public void failed() {
+        Snackbar.make(getView(), "Failed to sign out please try again later", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void success() {
+        navController.navigate(R.id.action_userProfileFragment_to_welcomeFragment);
     }
 }
