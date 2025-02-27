@@ -84,4 +84,14 @@
             android:name="meal"
             app:argType="com.example.tastyfood.model.Meal" />
     </fragment>
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="com.example.tastyfood.favourite.FavouriteFragment"
+        android:label="fragment_favourite"
+        tools:layout="@layout/fragment_favourite" >
+        <action
+            android:id="@+id/action_favouriteFragment_to_detailedMealFragment"
+            app:destination="@id/detailedMealFragment" />
+    </fragment>
+    <action android:id="@+id/action_global_favouriteFragment" app:destination="@id/favouriteFragment" />
 </navigation>

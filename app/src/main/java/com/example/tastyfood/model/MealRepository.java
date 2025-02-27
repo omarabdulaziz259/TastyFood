@@ -59,7 +59,11 @@ public class MealRepository {
         return mealLocalDataSource.getMealById(idMeal);
     }
 
-    //FavMeal
+    public Maybe<List<Meal>> getStoredFavDetailedMeals(){
+        return mealLocalDataSource.getStoredFavDetailedMeals();
+    }
+
+        //FavMeal
     public Flowable<List<FavMeal>> getStoredFavMeals(){
         return mealLocalDataSource.getStoredFavMeals();
     }

@@ -1,6 +1,7 @@
 package com.example.tastyfood.detailedMeal.presenter;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import com.example.tastyfood.detailedMeal.model.MealSaver;
 import com.example.tastyfood.model.Meal;
@@ -17,6 +18,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class DetailedMealPresenter {
     private MealRepository mealRepository;
     private MealSaver mealSaver;
+    private static final String TAG = "RemoveFromDB";
 
     public DetailedMealPresenter(MealRepository mealRepository, MealSaver mealSaver){
         this.mealSaver = mealSaver;
@@ -58,46 +60,36 @@ public class DetailedMealPresenter {
     }
     @SuppressLint("CheckResult")
     public void deleteFavMeal(Meal meal){
-        mealRepository.insertFavMeal(new FavMeal(meal.getIdMeal())).subscribeOn(Schedulers.io())
+        mealRepository.deleteFavMeal(new FavMeal(meal.getIdMeal())).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        () -> mealSaver.deleteFavMealSuccess(),
+                        () -> {
+                            mealSaver.deleteFavMealSuccess();
+                            removeMealFromDB(meal);
+                        },
                         error -> mealSaver.onFailed("There was an error occurred please try again")
                 );
-        removeMealFromDB(meal);
     }
 
     private void insertMealToDB(Meal meal){
         mealRepository.insertMeal(meal).subscribeOn(Schedulers.io())
                 .subscribe();
     }
+    @SuppressLint("CheckResult")
     private void removeMealFromDB(Meal meal){
         mealRepository.getCalenderedMealById(meal.getIdMeal()).subscribeOn(Schedulers.io())
-                .subscribe(new MaybeObserver<CalenderedMeal>() {
-                               @Override
-                               public void onSubscribe(@NonNull Disposable d) {}
-                               @Override
-                               public void onSuccess(@NonNull CalenderedMeal calenderedMeal) {}
-                               @Override
-                               public void onError(@NonNull Throwable e) {}
-                               @Override
-                               public void onComplete() {
-                                    mealRepository.getFavMealById(meal.getIdMeal()).subscribeOn(Schedulers.io())
-                                            .subscribe(new MaybeObserver<FavMeal>() {
-                                                @Override
-                                                public void onSubscribe(@NonNull Disposable d) {}
-                                                @Override
-                                                public void onSuccess(@NonNull FavMeal favMeal) {}
-                                                @Override
-                                                public void onError(@NonNull Throwable e) {}
-                                                @Override
-                                                public void onComplete() {
-                                                    mealRepository.deleteMeal(meal);
-                                                }
-                                            });
-                               }
-                           }
+                .subscribe(
+                        calenderedMeal -> {},
+                        error -> {},
+                        () -> {
+                            mealRepository.getFavMealById(meal.getIdMeal()).subscribeOn(Schedulers.io())
+                                    .subscribe(
+                                            favMeal -> {},
+                                            error -> {},
+                                            () -> mealRepository.deleteMeal(meal).subscribeOn(Schedulers.io()).subscribe()
+                                    );
 
+                        }
                 );
     }
 }

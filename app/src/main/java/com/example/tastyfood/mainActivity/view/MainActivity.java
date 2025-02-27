@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
 
     @Override
     public void navigateToFavScreen() {
-//todo
+        navController.navigate(R.id.action_global_favouriteFragment);
     }
 
     @Override

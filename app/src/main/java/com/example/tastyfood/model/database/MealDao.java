@@ -26,6 +26,9 @@ public interface MealDao {
     //Meal
     @Query("SELECT * FROM MealDetails WHERE idMeal = :idMeal")
     Maybe<Meal> getMealById(String idMeal);
+    //Meal
+    @Query("SELECT * FROM MealDetails INNER JOIN FavMeal ON MealDetails.idMeal = FavMeal.idMeal")
+    Maybe<List<Meal>> getStoredFavDetailedMeals();
     //favMeal
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     Completable insertFavMeal(FavMeal favMeal);
@@ -49,5 +52,6 @@ public interface MealDao {
     Maybe<CalenderedMeal> getCalenderedMealByDate(String date);
     @Query("SELECT * FROM CalenderedMeal WHERE idMeal = :idMeal")
     Maybe<CalenderedMeal> getCalenderedMealById(String idMeal);
+
 
 }

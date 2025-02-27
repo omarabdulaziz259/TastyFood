@@ -38,6 +38,10 @@ public class MealLocalDataSource {
     public Maybe<Meal> getMealById(String idMeal){
         return mealDao.getMealById(idMeal);
     }
+    public Maybe<List<Meal>> getStoredFavDetailedMeals(){
+        return mealDao.getStoredFavDetailedMeals();
+    }
+
 
     //FavMeal
     public Flowable<List<FavMeal>> getStoredFavMeals(){

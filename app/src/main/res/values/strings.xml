@@ -29,4 +29,5 @@
     <string name="meal_added_to_your_calendar_successfully">Meal added To Your Calendar Successfully</string>
     <string name="meal_removed_from_your_favourite_list">Meal Removed From Your Favourite List</string>
     <string name="meal_added_to_your_favourite_list">Meal Added To Your Favourite List</string>
+    <string name="your_favourite_meals_are_here">Your Favourite Meals Are Here</string>
 </resources>
