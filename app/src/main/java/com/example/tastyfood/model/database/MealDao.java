@@ -17,32 +17,37 @@ import io.reactivex.rxjava3.core.Maybe;
 @Dao
 public interface MealDao {
 
+    //meal
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     Completable insertMealDetails(Meal meal);
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    Completable insertFavMeal(FavMeal favMeal);
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    Completable insertCalenderedMeal(CalenderedMeal calenderedMeal);
-
-    @Query("SELECT * FROM CalenderedMeal WHERE date = :date")
-    Maybe<CalenderedMeal> getCalenderedMeal(int date);
-
-    @Query("SELECT * FROM FavMeal")
-    Flowable<List<FavMeal>> getAllFavMeals();
-
-    @Delete
-    Completable deleteFavMeal(FavMeal favMeal);
-
-    @Delete
-    Completable deleteCalenderedMeal(CalenderedMeal calenderedMeal);
-
+    //Meal
     @Delete
     Completable deleteMealDetails(Meal meal);
-
+    //Meal
     @Query("SELECT * FROM MealDetails WHERE idMeal = :idMeal")
     Maybe<Meal> getMealById(String idMeal);
-
+    //favMeal
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    Completable insertFavMeal(FavMeal favMeal);
+    //FavMeal
+    @Query("SELECT * FROM FavMeal WHERE idMeal = :idMeal")
+    Maybe<FavMeal> getFavMealById(String idMeal);
+    //FavMeal
+    @Query("SELECT * FROM FavMeal")
+    Flowable<List<FavMeal>> getAllFavMeals();
+    //FavMeal
+    @Delete
+    Completable deleteFavMeal(FavMeal favMeal);
+    //CalendarMeal
+    @Delete
+    Completable deleteCalenderedMeal(CalenderedMeal calenderedMeal);
+    //calendarMeal
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    Completable insertCalenderedMeal(CalenderedMeal calenderedMeal);
+    //CalendarMeal
+    @Query("SELECT * FROM CalenderedMeal WHERE date = :date")
+    Maybe<CalenderedMeal> getCalenderedMealByDate(String date);
+    @Query("SELECT * FROM CalenderedMeal WHERE idMeal = :idMeal")
+    Maybe<CalenderedMeal> getCalenderedMealById(String idMeal);
 
 }

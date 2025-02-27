@@ -11,13 +11,13 @@ import io.reactivex.rxjava3.core.Maybe;
 
 public class MealLocalDataSource {
     private MealDao mealDao;
-    private Flowable<List<FavMeal>> StoredFavMeals;
+//    private Flowable<List<FavMeal>> StoredFavMeals;
     private static MealLocalDataSource manger = null;
 
     private MealLocalDataSource(Context context){
         MealDatabase mealDatabase = MealDatabase.getInstance(context);
         mealDao = mealDatabase.getMealDao();
-        StoredFavMeals = mealDao.getAllFavMeals();
+//        StoredFavMeals = mealDao.getAllFavMeals();
     }
 
     public static MealLocalDataSource getDatabaseManager(Context _context){
@@ -35,9 +35,16 @@ public class MealLocalDataSource {
         return mealDao.deleteMealDetails(meal);
     }
 
+    public Maybe<Meal> getMealById(String idMeal){
+        return mealDao.getMealById(idMeal);
+    }
+
     //FavMeal
     public Flowable<List<FavMeal>> getStoredFavMeals(){
-        return StoredFavMeals;
+        return mealDao.getAllFavMeals();
+    }
+    public Maybe<FavMeal> getFavMealById(String idMeal){
+        return mealDao.getFavMealById(idMeal);
     }
     public Completable insertFavMeal(FavMeal favMeal){
         return mealDao.insertFavMeal(favMeal);
@@ -45,20 +52,21 @@ public class MealLocalDataSource {
     public Completable deleteFavMeal(FavMeal favMeal){
         return mealDao.deleteFavMeal(favMeal);
     }
-    public Maybe<Meal> getMealById(String idMeal){
-        return mealDao.getMealById(idMeal);
-    }
+
     //CalendaredMeal
+    public Maybe<CalenderedMeal> getCalenderedMealByDate(String date){
+        return mealDao.getCalenderedMealByDate(date);
+    }
     public Completable insertCalenderedMeal(CalenderedMeal calenderedMeal){
         return mealDao.insertCalenderedMeal(calenderedMeal);
     }
 
-    public Maybe<CalenderedMeal> getCalenderedMeal(int date){
-        return getCalenderedMeal(date);
-    }
-
     public Completable deleteCalenderedMeal(CalenderedMeal calenderedMeal){
         return mealDao.deleteCalenderedMeal(calenderedMeal);
+    }
+
+    public Maybe<CalenderedMeal> getCalenderedMealById(String idMeal){
+        return mealDao.getCalenderedMealById(idMeal);
     }
 
 

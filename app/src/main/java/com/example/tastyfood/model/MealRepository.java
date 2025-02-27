@@ -54,9 +54,7 @@ public class MealRepository {
     public Completable deleteMeal(Meal meal){
         return mealLocalDataSource.deleteMeal(meal);
     }
-    public Completable deleteDetailedMeal(Meal meal){
-        return mealLocalDataSource.deleteMeal(meal);
-    }
+
     public Maybe<Meal> getMealById(String idMeal){
         return mealLocalDataSource.getMealById(idMeal);
     }
@@ -71,18 +69,24 @@ public class MealRepository {
     public Completable deleteFavMeal(FavMeal favMeal){
         return mealLocalDataSource.deleteFavMeal(favMeal);
     }
+    public Maybe<FavMeal> getFavMealById(String idMeal){
+        return mealLocalDataSource.getFavMealById(idMeal);
+    }
 
     //CalendaredMeal
     public Completable insertCalenderedMeal(CalenderedMeal calenderedMeal){
         return mealLocalDataSource.insertCalenderedMeal(calenderedMeal);
     }
 
-    public Maybe<CalenderedMeal> getCalenderedMeal(int date){
-        return getCalenderedMeal(date);
+    public Maybe<CalenderedMeal> getCalenderedMealByDate(String date){
+        return mealLocalDataSource.getCalenderedMealByDate(date);
     }
 
     public Completable deleteCalenderedMeal(CalenderedMeal calenderedMeal){
         return mealLocalDataSource.deleteCalenderedMeal(calenderedMeal);
+    }
+    public Maybe<CalenderedMeal> getCalenderedMealById(String idMeal){
+        return mealLocalDataSource.getCalenderedMealById(idMeal);
     }
 
 

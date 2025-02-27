@@ -1,4 +1,4 @@
-package com.example.tastyfood.detailedMeal;
+package com.example.tastyfood.detailedMeal.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package com.example.tastyfood.detailedMeal;
+package com.example.tastyfood.detailedMeal.view;
 
 import android.os.Bundle;
 
@@ -16,23 +16,36 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.tastyfood.R;
+import com.example.tastyfood.detailedMeal.model.MealSaver;
+import com.example.tastyfood.detailedMeal.presenter.DetailedMealPresenter;
 import com.example.tastyfood.model.Meal;
+import com.example.tastyfood.model.MealRepository;
+import com.example.tastyfood.model.database.MealLocalDataSource;
 import com.example.tastyfood.util.CountryCode;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.DateValidatorPointForward;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.snackbar.Snackbar;
 
-public class DetailedMealFragment extends Fragment {
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+public class DetailedMealFragment extends Fragment implements MealSaver {
     private ImageView imgDetailedMeal, imgDetailedMealArea, imgDetailedMealCategory;
     private TextView txtDetailedMeal, txtDetailedMealArea, txtDetailedMealCategory, txtMealInstructions;
     private RecyclerView ingredientsRecyclerView;
     private WebView youtubeWebView;
-    private Button btnCalender, btnFav;
+    private MaterialButton btnCalender, btnFav;
     private DetailedMealPresenter detailedMealPresenter;
     private DetailedMealAdapter detailedMealAdapter;
+
     private Meal meal;
     public DetailedMealFragment() {
         // Required empty public constructor
@@ -58,8 +71,8 @@ public class DetailedMealFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         detailedMealPresenter = setupDetailedMealPresenter();
         meal = DetailedMealFragmentArgs.fromBundle(getArguments()).getMeal();
+        detailedMealPresenter.checkFavMealExists(meal);
         initializeUiComponents(view);
-
     }
     private void initializeUiComponents(View view){
         imgDetailedMeal = view.findViewById(R.id.imgDetailedMeal);
@@ -94,6 +107,43 @@ public class DetailedMealFragment extends Fragment {
         txtMealInstructions= view.findViewById(R.id.txtMealInstructions);
         txtMealInstructions.setText(meal.getStrInstructions());
 
+        initializeVideo(view);
+
+        btnCalender= view.findViewById(R.id.btnCalender);
+        setupCalendarBtnFunction();
+        btnFav= view.findViewById(R.id.btnFav);
+
+        setupIngredientsRecyclerView(view);
+    }
+
+    private void setupIngredientsRecyclerView(View view) {
+        ingredientsRecyclerView= view.findViewById(R.id.ingredientsRecyclerView);
+        ingredientsRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
+        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        ingredientsRecyclerView.setLayoutManager(layoutManager);
+        detailedMealAdapter = new DetailedMealAdapter(requireContext(), meal);
+        ingredientsRecyclerView.setAdapter(detailedMealAdapter);
+    }
+
+    private void setupCalendarBtnFunction() {
+        btnCalender.setOnClickListener(v -> {
+            MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker.Builder.datePicker()
+                    .setTitleText("Select Date")
+                    .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                    .setCalendarConstraints(new CalendarConstraints.Builder()
+                                    .setValidator(DateValidatorPointForward.now()).build())
+                                    .build();
+            materialDatePicker.addOnPositiveButtonClickListener((selection) ->{
+                String date = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault()).format(new Date(selection));
+                Log.i("TAG", "initializeUiComponents: date: "+date);
+                detailedMealPresenter.insertCalenderedMeal(meal, date);
+            });
+            materialDatePicker.show(getActivity().getSupportFragmentManager(), "TAG");
+        });
+    }
+
+    private void initializeVideo(View view) {
         youtubeWebView= view.findViewById(R.id.youtubeWebView);
         WebSettings webSettings = youtubeWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -103,28 +153,50 @@ public class DetailedMealFragment extends Fragment {
         String videoUrl = meal.getStrYoutube().replace("watch?v=", "embed/");
         String html = "<html><body><iframe width=\"100%\" height=\"100%\" src=\"" + videoUrl + "\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
         youtubeWebView.loadData(html, "text/html", "utf-8");
-
-        btnCalender= view.findViewById(R.id.btnCalender);
-//        todo btnCalender.setOnClickListener();
-        btnFav= view.findViewById(R.id.btnFav);
-//        todo btnFav.setOnClickListener();
-        ingredientsRecyclerView= view.findViewById(R.id.ingredientsRecyclerView);
-        ingredientsRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext());
-        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        ingredientsRecyclerView.setLayoutManager(layoutManager);
-        detailedMealAdapter = new DetailedMealAdapter(requireContext(), meal);
-        ingredientsRecyclerView.setAdapter(detailedMealAdapter);
-        detailedMealAdapter.setMeals(meal);
-        for (int i = 0; i < meal.getIngredients().size(); i++) {
-            Log.i("TAG", "Ingredient " + i + " : " + meal.getIngredients().get(i));
-        }
-        for (int i = 0; i < meal.getMeasures().size(); i++) {
-            Log.i("TAG", "measure "+ i +" : "+ meal.getMeasures().get(i));
-
-        }
     }
+
     private DetailedMealPresenter setupDetailedMealPresenter(){
-        return new DetailedMealPresenter();
+        return new DetailedMealPresenter(MealRepository.getInstance(
+                MealLocalDataSource.getDatabaseManager(getContext())), this);
+    }
+
+    @Override
+    public void calendaredMealSuccess() {
+        Snackbar.make(getView(), getString(R.string.meal_added_to_your_calendar_successfully), Snackbar.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void insertingFavMealSuccess() {
+        Snackbar.make(getView(), getString(R.string.meal_added_to_your_favourite_list), Snackbar.LENGTH_SHORT).show();
+        reverseFavBtn(true);
+    }
+
+    @Override
+    public void deleteFavMealSuccess() {
+        Snackbar.make(getView(), getString(R.string.meal_removed_from_your_favourite_list), Snackbar.LENGTH_SHORT).show();
+        reverseFavBtn(false);
+    }
+
+    @Override
+    public void reverseFavBtn(Boolean doReverse) {
+        if (doReverse){
+            btnFav.setIconResource(R.drawable.favorite_filled);
+            btnFav.setOnClickListener(v -> {
+                detailedMealPresenter.deleteFavMeal(meal);
+            });
+        }
+        else {
+            btnFav.setIconResource(R.drawable.favorite_outline);
+            btnFav.setOnClickListener(v -> {
+                detailedMealPresenter.insertFavMeal(meal);
+            });
+        }
+
+    }
+
+    @Override
+    public void onFailed(String msg) {
+        Snackbar.make(getView(), msg, Snackbar.LENGTH_SHORT).show();
     }
 }

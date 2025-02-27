@@ -8,9 +8,10 @@ import androidx.room.Entity;
 public class CalenderedMeal {
     @NonNull
     private String idMeal;
-    private int date;
+    @NonNull
+    private String date;
 
-    public CalenderedMeal(@NonNull String idMeal, int date) {
+    public CalenderedMeal(@NonNull String idMeal, String date) {
         this.idMeal = idMeal;
         this.date = date;
     }
@@ -24,11 +25,11 @@ public class CalenderedMeal {
         this.idMeal = idMeal;
     }
 
-    public int getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(int date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }

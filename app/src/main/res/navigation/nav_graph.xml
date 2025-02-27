@@ -77,7 +77,7 @@
     </fragment><action android:id="@+id/action_global_userProfileFragment" app:destination="@id/userProfileFragment"/><action android:id="@+id/action_global_homeFragment" app:destination="@id/homeFragment"/>
     <fragment
         android:id="@+id/detailedMealFragment"
-        android:name="com.example.tastyfood.detailedMeal.DetailedMealFragment"
+        android:name="com.example.tastyfood.detailedMeal.view.DetailedMealFragment"
         android:label="fragment_detailed_meal"
         tools:layout="@layout/fragment_detailed_meal" >
         <argument
