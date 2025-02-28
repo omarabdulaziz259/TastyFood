@@ -79,6 +79,9 @@ public class MealLocalDataSource {
     public Completable clearCalendarMeals(){
         return mealDao.clearCalenderedMeals();
     }
+    public Maybe<List<CalenderedMeal>> getAllCalenderedMeals(){
+        return mealDao.getAllCalenderedMeals();
+    }
 
     //calendaredMeal with meal
     public Flowable<List<Meal>> getMealsByDate(String date){

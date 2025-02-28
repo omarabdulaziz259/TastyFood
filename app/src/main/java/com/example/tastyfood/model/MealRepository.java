@@ -103,6 +103,9 @@ public class MealRepository {
     public Flowable<List<Meal>> getMealsByDate(String date){
         return mealLocalDataSource.getMealsByDate(date);
     }
+    public Maybe<List<CalenderedMeal>> getAllCalenderedMeals(){
+        return mealLocalDataSource.getAllCalenderedMeals();
+    }
 
     @SuppressLint("CheckResult")
     public void removeMealFromDB(Meal meal){

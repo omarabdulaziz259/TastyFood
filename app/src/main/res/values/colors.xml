@@ -6,4 +6,5 @@
     <color name="secondaryColor">#043952</color>
     <color name="red">#cc0000</color>
     <color name="lavender">#8692f7</color>
+    <color name="linkColor">#3872c7</color>
 </resources>

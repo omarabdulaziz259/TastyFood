@@ -70,7 +70,8 @@ public class PlannedAdapter extends RecyclerView.Adapter<PlannedAdapter.ViewHold
                     mealList.add(position, temp);
                     notifyItemInserted(position);
                     notifyItemRangeChanged(position, mealList.size());
-                }).setActionTextColor(context.getResources().getColor(R.color.black))
+                }).setActionTextColor(context.getResources().getColor(R.color.linkColor))
+                .setTextColor(context.getResources().getColor(R.color.white))
                 .addCallback(new Snackbar.Callback(){
                     @Override
                     public void onDismissed(Snackbar transientBottomBar, int event) {

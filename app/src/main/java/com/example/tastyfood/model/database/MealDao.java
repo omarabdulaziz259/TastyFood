@@ -52,7 +52,6 @@ public interface MealDao {
     Completable clearFavMeals();
 
 
-
     //CalendarMeal
     @Delete
     Completable deleteCalenderedMeal(CalenderedMeal calenderedMeal);
@@ -67,6 +66,9 @@ public interface MealDao {
     //calendarMeal
     @Query("DELETE FROM CalenderedMeal")
     Completable clearCalenderedMeals();
+    //calendarMeals
+    @Query("SELECT * FROM CalenderedMeal")
+    Maybe<List<CalenderedMeal>> getAllCalenderedMeals();
 
     @Query("SELECT * FROM MealDetails WHERE idMeal IN (SELECT idMeal FROM CalenderedMeal WHERE date = :date)")
     Flowable<List<Meal>> getMealsByDate(String date);

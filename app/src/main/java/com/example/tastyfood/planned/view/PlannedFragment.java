@@ -100,7 +100,7 @@ public class PlannedFragment extends Fragment implements PlannedHandler {
                             .setValidator(DateValidatorPointForward.now()).build())
                     .build();
             materialDatePicker.addOnPositiveButtonClickListener((selection) ->{
-                String date = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(new Date(selection));
+                String date = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH).format(new Date(selection));
                 btnCalendarDate.setText(date);
                 plannedPresenter.getMealsForDate(date);
             });

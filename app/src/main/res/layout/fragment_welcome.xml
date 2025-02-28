@@ -96,7 +96,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
         android:text="@string/sign_up"
-        android:textColor="#3872c7"
+        android:textColor="@color/linkColor"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="@+id/textView" />

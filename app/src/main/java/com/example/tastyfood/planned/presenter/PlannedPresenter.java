@@ -3,38 +3,37 @@ package com.example.tastyfood.planned.presenter;
 import android.annotation.SuppressLint;
 import android.os.Build;
 
-import androidx.annotation.CheckResult;
 import androidx.annotation.RequiresApi;
 
 import com.example.tastyfood.model.Meal;
 import com.example.tastyfood.model.MealRepository;
 import com.example.tastyfood.model.database.CalenderedMeal;
 import com.example.tastyfood.planned.model.PlannedHandler;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import com.example.tastyfood.util.DateChecker;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class PlannedPresenter {
-    private MealRepository repository;
-    private PlannedHandler plannedHandler;
+    private final MealRepository repository;
+    private final PlannedHandler plannedHandler;
     private String date;
+    private static boolean stopDeleteFunc = false;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public PlannedPresenter(MealRepository repository, PlannedHandler plannedHandler){
         date = getTodaysDate();
         this.repository = repository;
         this.plannedHandler = plannedHandler;
+        if (!stopDeleteFunc){
+            deleteOldCalendarMeals();
+            stopDeleteFunc = true;
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public String getTodaysDate(){
-        LocalDate today = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
-        String formattedDate = today.format(formatter);
-        return formattedDate;
+        return DateChecker.getTodaysDate();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -62,5 +61,38 @@ public class PlannedPresenter {
        repository.deleteCalenderedMeal(calenderedMeal).subscribeOn(Schedulers.io()).subscribe(
                () -> repository.removeMealFromDB(meal)
        );
+   }
+
+    @SuppressLint("CheckResult")
+    private void deleteMealWithDate(Meal meal, String date){
+       CalenderedMeal calenderedMeal = new CalenderedMeal(meal.getIdMeal(), date);
+       repository.deleteCalenderedMeal(calenderedMeal).subscribeOn(Schedulers.io()).subscribe(
+               () -> repository.removeMealFromDB(meal)
+       );
+   }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint("CheckResult")
+    private void deleteOldCalendarMeals(){
+        DateChecker.isDateInPast(date);
+        repository.getAllCalenderedMeals().subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(
+                        calenderedMeals -> {
+                            if (!calenderedMeals.isEmpty()){
+                                for (CalenderedMeal meal: calenderedMeals){
+                                    if (DateChecker.isDateInPast(meal.getDate())){
+                                        repository.getMealById(meal.getIdMeal())
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(Schedulers.io())
+                                                        .subscribe(
+                                                                detailedMeal ->  deleteMealWithDate(detailedMeal, meal.getDate())
+                                                        );
+                                    }
+                                }
+                            }
+                        },
+                        error -> error.printStackTrace()
+                );
    }
 }
