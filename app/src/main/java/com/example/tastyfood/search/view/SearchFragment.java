@@ -176,18 +176,26 @@ public class SearchFragment extends Fragment implements SearchViewer, SearchNavi
         Snackbar.make(getView(), msg, Snackbar.LENGTH_SHORT).show();
     }
 
+    private void clearSearchTxt(){
+        txtSearch.clearFocus();
+        txtSearch.setText("");
+    }
+
     @Override
     public void getFilteredMealsByCountry(String country) {
+        clearSearchTxt();
         searchPresenter.getMealsFilteredByCountry(country);
     }
 
     @Override
     public void getFilteredMealsByCategory(String category) {
+        clearSearchTxt();
         searchPresenter.getMealsFilteredByCategory(category);
     }
 
     @Override
     public void getFilteredMealsByIngredients(String ingredient) {
+        clearSearchTxt();
         searchPresenter.getMealsFilteredByIngredient(ingredient);
     }
 

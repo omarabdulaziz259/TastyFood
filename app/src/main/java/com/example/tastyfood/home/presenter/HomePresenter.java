@@ -42,7 +42,7 @@ public class HomePresenter {
     private String getSavedMealOfTheDayIfExists(){
         String mealOfTheDayId = sharedPref.getString(sharedPrefMealOfTheDayId, "0");
         String dayOfRecentMealOfTheDay = sharedPref.getString(sharedPrefDayOfRecentMealOfTheDay, "0");
-        String today = Integer.toString(LocalDate.now().getDayOfMonth());
+        String today = Integer.toString(LocalDate.now().getDayOfYear());
         if (dayOfRecentMealOfTheDay.equals(today) && !mealOfTheDayId.isEmpty()){
             return mealOfTheDayId;
         }
@@ -52,7 +52,7 @@ public class HomePresenter {
     public void saveMealOfTheDay(Meal meal){
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(sharedPrefMealOfTheDayId, meal.getIdMeal());
-        editor.putString(sharedPrefDayOfRecentMealOfTheDay, Integer.toString(LocalDate.now().getDayOfMonth()));
+        editor.putString(sharedPrefDayOfRecentMealOfTheDay, Integer.toString(LocalDate.now().getDayOfYear()));
         editor.apply();
     }
 

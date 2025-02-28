@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcel;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class DetailedMealFragment extends Fragment implements MealSaver {
     private ImageView imgDetailedMeal, imgDetailedMealArea, imgDetailedMealCategory;
@@ -125,24 +127,45 @@ public class DetailedMealFragment extends Fragment implements MealSaver {
         detailedMealAdapter = new DetailedMealAdapter(requireContext(), meal);
         ingredientsRecyclerView.setAdapter(detailedMealAdapter);
     }
+private void setupCalendarBtnFunction() {
+    btnCalender.setOnClickListener(v -> {
+        long today = MaterialDatePicker.todayInUtcMilliseconds();
+        long nextWeek = today + TimeUnit.DAYS.toMillis(6);
 
-    private void setupCalendarBtnFunction() {
-        btnCalender.setOnClickListener(v -> {
-            MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker.Builder.datePicker()
-                    .setTitleText("Select Date")
-                    .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                    .setCalendarConstraints(new CalendarConstraints.Builder()
-                                    .setValidator(DateValidatorPointForward.now()).build())
-                                    .build();
-            materialDatePicker.addOnPositiveButtonClickListener((selection) ->{
-                String date = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH).format(new Date(selection));
-                Log.i("TAG", "initializeUiComponents: date: "+date);
-                detailedMealPresenter.insertCalenderedMeal(meal, date);
-            });
-            materialDatePicker.show(getActivity().getSupportFragmentManager(), "TAG");
+        CalendarConstraints.DateValidator dateValidator = new CalendarConstraints.DateValidator() {
+            @Override
+            public boolean isValid(long date) {
+                return date >= today && date <= nextWeek;
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+            }
+        };
+
+        CalendarConstraints constraints = new CalendarConstraints.Builder()
+                .setValidator(dateValidator)
+                .build();
+
+        MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Select Date")
+                .setSelection(today)
+                .setCalendarConstraints(constraints)
+                .build();
+
+        materialDatePicker.addOnPositiveButtonClickListener(selection -> {
+            String date = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH).format(new Date(selection));
+            detailedMealPresenter.insertCalenderedMeal(meal, date);
         });
-    }
 
+        materialDatePicker.show(getActivity().getSupportFragmentManager(), "TAG");
+    });
+}
     private void initializeVideo(View view) {
         youtubeWebView= view.findViewById(R.id.youtubeWebView);
         WebSettings webSettings = youtubeWebView.getSettings();

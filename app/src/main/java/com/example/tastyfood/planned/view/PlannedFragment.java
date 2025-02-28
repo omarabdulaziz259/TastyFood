@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcel;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class PlannedFragment extends Fragment implements PlannedHandler {
 
@@ -93,11 +95,31 @@ public class PlannedFragment extends Fragment implements PlannedHandler {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setupCalendarDateBtnFunction() {
         btnCalendarDate.setOnClickListener(v -> {
+            long today = MaterialDatePicker.todayInUtcMilliseconds();
+            long nextWeek = today + TimeUnit.DAYS.toMillis(6);
+            CalendarConstraints.DateValidator dateValidator = new CalendarConstraints.DateValidator() {
+                @Override
+                public boolean isValid(long date) {
+                    return date >= today && date <= nextWeek;
+                }
+
+                @Override
+                public int describeContents() {
+                    return 0;
+                }
+
+                @Override
+                public void writeToParcel(Parcel dest, int flags) {
+                }
+            };
+
+            CalendarConstraints constraints = new CalendarConstraints.Builder()
+                    .setValidator(dateValidator)
+                    .build();
             MaterialDatePicker<Long> materialDatePicker = MaterialDatePicker.Builder.datePicker()
                     .setTitleText("Select Date")
                     .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                    .setCalendarConstraints(new CalendarConstraints.Builder()
-                            .setValidator(DateValidatorPointForward.now()).build())
+                    .setCalendarConstraints(constraints)
                     .build();
             materialDatePicker.addOnPositiveButtonClickListener((selection) ->{
                 String date = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH).format(new Date(selection));
