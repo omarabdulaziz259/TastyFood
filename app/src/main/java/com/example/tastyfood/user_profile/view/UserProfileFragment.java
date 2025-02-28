@@ -22,13 +22,14 @@ import com.example.tastyfood.model.database.MealLocalDataSource;
 import com.example.tastyfood.user_profile.model.UserProfileHandler;
 import com.example.tastyfood.user_profile.presenter.UserProfilePresenter;
 import com.example.tastyfood.util.UserValidation;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
 
 public class UserProfileFragment extends Fragment implements UserProfileHandler {
 
 
-    private Button btnSignOutFromApp;
+    private MaterialButton btnSignOutFromApp;
     private TextView txtEmailUserProfile;
     private NavController navController;
     private UserProfilePresenter userProfilePresenter;
@@ -71,8 +72,9 @@ public class UserProfileFragment extends Fragment implements UserProfileHandler 
         txtEmailUserProfile = view.findViewById(R.id.txtEmailUserProfile);
         navController = Navigation.findNavController(view);
         txtEmailUserProfile.setText(userProfilePresenter.getEmail());
-        if (UserValidation.validateUser()){
+        if (!UserValidation.validateUser()){
             btnSignOutFromApp.setText(getString(R.string.sign_in) + "\\" + getString(R.string.sign_up));
+            btnSignOutFromApp.setIcon(getContext().getDrawable(R.drawable.login));
         }
 
         btnSignOutFromApp.setOnClickListener(v -> {

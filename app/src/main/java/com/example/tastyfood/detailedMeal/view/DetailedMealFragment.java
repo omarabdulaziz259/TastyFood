@@ -135,7 +135,7 @@ public class DetailedMealFragment extends Fragment implements MealSaver {
                                     .setValidator(DateValidatorPointForward.now()).build())
                                     .build();
             materialDatePicker.addOnPositiveButtonClickListener((selection) ->{
-                String date = new SimpleDateFormat("MM-dd-yyyy", Locale.getDefault()).format(new Date(selection));
+                String date = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(new Date(selection));
                 Log.i("TAG", "initializeUiComponents: date: "+date);
                 detailedMealPresenter.insertCalenderedMeal(meal, date);
             });
@@ -151,8 +151,7 @@ public class DetailedMealFragment extends Fragment implements MealSaver {
         youtubeWebView.setWebViewClient(new WebViewClient());
         youtubeWebView.setWebChromeClient(new WebChromeClient());
         String videoUrl = meal.getStrYoutube().replace("watch?v=", "embed/");
-        String html = "<html><body><iframe width=\"100%\" height=\"100%\" src=\"" + videoUrl + "\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
-        youtubeWebView.loadData(html, "text/html", "utf-8");
+        youtubeWebView.loadUrl(videoUrl);
     }
 
     private DetailedMealPresenter setupDetailedMealPresenter(){

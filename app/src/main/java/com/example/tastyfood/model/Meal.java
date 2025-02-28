@@ -27,6 +27,20 @@ public class Meal implements Serializable {
         measures = new ArrayList<>();
     }
 
+    public Meal(Meal meal){
+        this.idMeal = meal.getIdMeal();
+        this.strMeal = meal.getStrMeal();
+        this.strCategory = meal.getStrCategory();
+        this.strArea = meal.getStrArea();
+        this.strInstructions = meal.getStrInstructions();
+        this.strMealThumb = meal.getStrMealThumb();
+        this.strYoutube = meal.getStrYoutube();
+        this.ingredients = new ArrayList<>();
+        this.ingredients.addAll(meal.getIngredients());
+        this.measures = new ArrayList<>();
+        this.measures.addAll(meal.getMeasures());
+    }
+
     public Meal(@NonNull String idMeal, String strMeal, String strCategory, String strArea, String strInstructions, String strMealThumb, String strYoutube, ArrayList<String> ingredients, ArrayList<String> measures) {
         this.idMeal = idMeal;
         this.strMeal = strMeal;

@@ -30,4 +30,7 @@
     <string name="meal_removed_from_your_favourite_list">Meal Removed From Your Favourite List</string>
     <string name="meal_added_to_your_favourite_list">Meal Added To Your Favourite List</string>
     <string name="your_favourite_meals_are_here">Your Favourite Meals Are Here</string>
+    <string name="delete_All_meals_from_calendar">Delete All Meals from Calendar</string>
+    <string name="select_date">Select Date</string>
+    <string name="your_planned_meals">Your Planned Meals</string>
 </resources>

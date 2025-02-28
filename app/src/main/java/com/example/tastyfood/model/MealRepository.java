@@ -1,5 +1,7 @@
 package com.example.tastyfood.model;
 
+import android.annotation.SuppressLint;
+
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
@@ -98,8 +100,27 @@ public class MealRepository {
                 mealLocalDataSource.clearCalendarMeals(),
                 mealLocalDataSource.clearFavMeal());
     }
+    public Flowable<List<Meal>> getMealsByDate(String date){
+        return mealLocalDataSource.getMealsByDate(date);
+    }
 
+    @SuppressLint("CheckResult")
+    public void removeMealFromDB(Meal meal){
+        getCalenderedMealById(meal.getIdMeal()).subscribeOn(Schedulers.io())
+                .subscribe(
+                        calenderedMeal -> {},
+                        error -> {},
+                        () -> {
+                            getFavMealById(meal.getIdMeal()).subscribeOn(Schedulers.io())
+                                    .subscribe(
+                                            favMeal -> {},
+                                            error -> {},
+                                            () -> deleteMeal(meal).subscribeOn(Schedulers.io()).subscribe()
+                                    );
 
+                        }
+                );
+    }
     //Remote
     public void getMealsByFirstLetter(MealListViewer mealListViewer, char firstLetter){
         Single<MealResponse> call = apiService.getMealsByFirstLetter(firstLetter);

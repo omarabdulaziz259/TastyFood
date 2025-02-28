@@ -37,15 +37,12 @@ import com.google.firebase.auth.GoogleAuthProvider;
 public class WelcomeFragment extends Fragment implements WelcomeNavigator {
 
 //    WelcomePresenter welcomePresenter;
-    FirebaseAuth  mAuth;
-    GoogleSignInClient googleSignInClient;
+    private FirebaseAuth  mAuth;
+    private GoogleSignInClient googleSignInClient;
     private ActivityResultLauncher<Intent> googleSignInLauncher;
-
-    private static final int RC_SIGN_IN = 100;
-    NavController navController;
-
-    Button btnSignInWithEmail, btnSignInWithGoogle, btnAsAGuest;
-    TextView txtSignUp;
+    private NavController navController;
+    private Button btnSignInWithEmail, btnSignInWithGoogle, btnAsAGuest;
+    private TextView txtSignUp;
     public WelcomeFragment() {
         // Required empty public constructor
     }

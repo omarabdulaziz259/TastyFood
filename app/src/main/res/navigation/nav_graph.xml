@@ -94,4 +94,14 @@
             app:destination="@id/detailedMealFragment" />
     </fragment>
     <action android:id="@+id/action_global_favouriteFragment" app:destination="@id/favouriteFragment" />
+    <fragment
+        android:id="@+id/plannedFragment"
+        android:name="com.example.tastyfood.planned.view.PlannedFragment"
+        android:label="fragment_planned"
+        tools:layout="@layout/fragment_planned" >
+        <action
+            android:id="@+id/action_plannedFragment_to_detailedMealFragment"
+            app:destination="@id/detailedMealFragment" />
+    </fragment>
+    <action android:id="@+id/action_global_plannedFragment" app:destination="@id/plannedFragment" />
 </navigation>

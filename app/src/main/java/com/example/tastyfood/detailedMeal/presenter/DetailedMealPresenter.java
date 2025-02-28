@@ -74,7 +74,7 @@ public class DetailedMealPresenter {
                 .subscribe(
                         () -> {
                             mealSaver.deleteFavMealSuccess();
-                            removeMealFromDB(meal);
+                            mealRepository.removeMealFromDB(meal);
                         },
                         error -> mealSaver.onFailed("There was an error occurred please try again")
                 );
@@ -84,21 +84,21 @@ public class DetailedMealPresenter {
         mealRepository.insertMeal(meal).subscribeOn(Schedulers.io())
                 .subscribe();
     }
-    @SuppressLint("CheckResult")
-    private void removeMealFromDB(Meal meal){
-        mealRepository.getCalenderedMealById(meal.getIdMeal()).subscribeOn(Schedulers.io())
-                .subscribe(
-                        calenderedMeal -> {},
-                        error -> {},
-                        () -> {
-                            mealRepository.getFavMealById(meal.getIdMeal()).subscribeOn(Schedulers.io())
-                                    .subscribe(
-                                            favMeal -> {},
-                                            error -> {},
-                                            () -> mealRepository.deleteMeal(meal).subscribeOn(Schedulers.io()).subscribe()
-                                    );
-
-                        }
-                );
-    }
+//    @SuppressLint("CheckResult")
+//    private void removeMealFromDB(Meal meal){
+//        mealRepository.getCalenderedMealById(meal.getIdMeal()).subscribeOn(Schedulers.io())
+//                .subscribe(
+//                        calenderedMeal -> {},
+//                        error -> {},
+//                        () -> {
+//                            mealRepository.getFavMealById(meal.getIdMeal()).subscribeOn(Schedulers.io())
+//                                    .subscribe(
+//                                            favMeal -> {},
+//                                            error -> {},
+//                                            () -> mealRepository.deleteMeal(meal).subscribeOn(Schedulers.io()).subscribe()
+//                                    );
+//
+//                        }
+//                );
+//    }
 }

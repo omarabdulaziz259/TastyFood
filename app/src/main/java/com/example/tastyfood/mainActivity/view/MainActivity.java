@@ -68,12 +68,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
 
     @Override
     public void navigateToSearchScreen() {
-//todo
+    //todo
     }
 
     @Override
     public void navigateToCalenderScreen() {
-//todo
+        navController.navigate(R.id.action_global_plannedFragment);
     }
 
     @Override

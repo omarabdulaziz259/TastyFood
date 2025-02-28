@@ -80,5 +80,11 @@ public class MealLocalDataSource {
         return mealDao.clearCalenderedMeals();
     }
 
+    //calendaredMeal with meal
+    public Flowable<List<Meal>> getMealsByDate(String date){
+        return mealDao.getMealsByDate(date);
+    }
+
+
 }
 
