@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.example.tastyfood.R;
 import com.example.tastyfood.favourite.model.FavouriteHandler;
 import com.example.tastyfood.favourite.presenter.FavouritePresenter;
+import com.example.tastyfood.mainActivity.view.MainActivity;
 import com.example.tastyfood.model.Meal;
 import com.example.tastyfood.model.MealRepository;
 import com.example.tastyfood.model.database.MealLocalDataSource;
@@ -44,6 +45,13 @@ public class FavouriteFragment extends Fragment implements FavouriteHandler {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity) requireActivity()).makeFavItemSelectedOnBottomNav();
+        ((MainActivity) requireActivity()).setBottomNavVisibility(true);
     }
 
     @Override

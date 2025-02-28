@@ -11,11 +11,13 @@ public class SplashPresenter {
     private SplashNavigator splashNavigator;
     private Runnable runnable;
     private Handler handler;
+    private boolean isInternetConnected;
 
-    public SplashPresenter(SplashNavigator splashNavigator){
+    public SplashPresenter(SplashNavigator splashNavigator, boolean isInternetConnected){
         this.splashNavigator = splashNavigator;
         mAuth = FirebaseAuth.getInstance();
         handler = new Handler();
+        this.isInternetConnected = isInternetConnected;
     }
 
     public void navigateToNextScreen(){
@@ -24,7 +26,10 @@ public class SplashPresenter {
             @Override
             public void run() {
                 if (currentUser != null){
-                    splashNavigator.navigateToHome();
+                    if (isInternetConnected)
+                        splashNavigator.navigateToHome();
+                    else
+                        splashNavigator.navigateToFav();
                 }else {
                     splashNavigator.navigateToWelcome();
                 }

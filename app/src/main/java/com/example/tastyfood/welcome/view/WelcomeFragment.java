@@ -1,5 +1,6 @@
 package com.example.tastyfood.welcome.view;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.tastyfood.mainActivity.view.MainActivity;
 import com.example.tastyfood.R;
+import com.example.tastyfood.util.InternetConnectivity;
 import com.example.tastyfood.welcome.model.WelcomeNavigator;
 import com.example.tastyfood.welcome.presenter.WelcomePresenter;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -101,7 +103,7 @@ public class WelcomeFragment extends Fragment implements WelcomeNavigator {
         txtSignUp.setOnClickListener(v -> navController.navigate(R.id.action_welcomeFragment_to_signUpFragment));
 
         btnSignInWithGoogle.setOnClickListener(v -> signIn());
-        btnAsAGuest.setOnClickListener(v -> WelcomePresenter.navigateToNextScreen(this));
+        btnAsAGuest.setOnClickListener(v -> WelcomePresenter.navigateToNextScreen(this, InternetConnectivity.isInternetAvailable(getContext())));
         
     }
 
@@ -141,5 +143,24 @@ public class WelcomeFragment extends Fragment implements WelcomeNavigator {
     @Override
     public void navigateToHome() {
         navController.navigate(R.id.action_welcomeFragment_to_homeFragment);
+    }
+
+    @Override
+    public void errorMsg(String msg) {
+        View view = LayoutInflater.from(requireContext()).inflate(R.layout.error_dialog, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setView(view);
+        final AlertDialog alertDialog = builder.create();
+
+        Button btnErrorClose = view.findViewById(R.id.btnErrorClose);
+        TextView txtErrorDesc = view.findViewById(R.id.txtErrorDesc);
+        TextView txtErrorTitle = view.findViewById(R.id.txtErrorTitle);
+        txtErrorTitle.setText("Error");
+        txtErrorDesc.setText(msg);
+        btnErrorClose.setOnClickListener(v -> {
+            alertDialog.dismiss();
+        });
+
+        alertDialog.show();
     }
 }

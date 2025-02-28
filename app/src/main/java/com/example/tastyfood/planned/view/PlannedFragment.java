@@ -127,6 +127,7 @@ public class PlannedFragment extends Fragment implements PlannedHandler {
 
     @Override
     public void onFailed(String msg) {
+        plannedAdapter.setMealsList(new ArrayList<>());
         View rootView = getView();
         if (rootView != null) {
             Snackbar.make(rootView, msg, Snackbar.LENGTH_SHORT).show();

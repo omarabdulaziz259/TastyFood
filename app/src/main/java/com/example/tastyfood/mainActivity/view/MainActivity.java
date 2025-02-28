@@ -14,13 +14,20 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.tastyfood.R;
 import com.example.tastyfood.mainActivity.model.MainActivityNavigator;
 import com.example.tastyfood.mainActivity.presenter.MainActivityPresenter;
+import com.example.tastyfood.util.InternetConnectivity;
+import com.example.tastyfood.util.UserValidation;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements MainActivityNavigator {
     private MainActivityPresenter mainActivityPresenter;
     private BottomNavigationView bottomNav;
     private NavController navController;
+    private AlertDialog alertDialog;
+
 
 
     @Override
@@ -39,11 +46,30 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
         bottomNav.setSelectedItemId(R.id.nav_home);
         bottomNav.setOnItemSelectedListener(mainActivityPresenter.navlistener);
         setBottomNavVisibility(false);
+        setInternetWatcher();
+    }
+
+    private void setInternetWatcher() {
+        InternetConnectivity.observeInternetConnectivity(getApplicationContext())
+                .distinctUntilChanged()
+                .subscribeOn(Schedulers.single())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        isConnected -> {
+                          internetConnectionLost("internet Connection Lost", "Please reconnect to the internet", isConnected);
+                  },
+                        error -> error.printStackTrace()
+                );
     }
 
     public void makeHomeItemSelectedOnBottomNav(){
         if (bottomNav != null && bottomNav.getSelectedItemId() != R.id.nav_home) {
             bottomNav.setSelectedItemId(R.id.nav_home);
+        }
+    }
+    public void makeFavItemSelectedOnBottomNav(){
+        if (bottomNav != null && bottomNav.getSelectedItemId() != R.id.nav_fav) {
+            bottomNav.setSelectedItemId(R.id.nav_fav);
         }
     }
     public void setBottomNavVisibility(boolean isVisible) {
@@ -68,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
 
     @Override
     public void navigateToSearchScreen() {
-    //todo
+        navController.navigate(R.id.action_global_searchFragment);
     }
 
     @Override
@@ -82,7 +108,41 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
     }
 
     @Override
-    public void unauthorizedAccess(String msg) {
+    public Boolean getInternetStatus() {
+
+        return InternetConnectivity.isInternetAvailable(getApplicationContext());
+    }
+
+    public void internetConnectionLost(String errorTitle, String msg, boolean shouldDismiss) {
+        if (shouldDismiss){
+            if (alertDialog != null && alertDialog.isShowing()) {
+                alertDialog.dismiss();
+            }
+            return;
+        }
+        View view = LayoutInflater.from(this).inflate(R.layout.error_dialog, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+        alertDialog = builder.create();
+
+        Button btnErrorClose = view.findViewById(R.id.btnErrorClose);
+        TextView txtErrorDesc = view.findViewById(R.id.txtErrorDesc);
+        TextView txtErrorTitle = view.findViewById(R.id.txtErrorTitle);
+        txtErrorTitle.setText(errorTitle);
+        txtErrorDesc.setText(msg);
+        btnErrorClose.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            if (UserValidation.validateUser()){
+                navController.navigate(R.id.action_global_favouriteFragment);
+            } else {
+                navController.navigate(R.id.action_global_welcomeFragment);
+            }
+        });
+
+        alertDialog.show();
+    }
+    @Override
+    public void unauthorizedAccess(String errorTitle, String msg) {
         View view = LayoutInflater.from(this).inflate(R.layout.error_dialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(view);
@@ -91,8 +151,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
         Button btnErrorClose = view.findViewById(R.id.btnErrorClose);
         TextView txtErrorDesc = view.findViewById(R.id.txtErrorDesc);
         TextView txtErrorTitle = view.findViewById(R.id.txtErrorTitle);
-        txtErrorTitle.setText(msg);
-        txtErrorDesc.setText("To Login -> Profile -> SignIn/SignUp");
+        txtErrorTitle.setText(errorTitle);
+        txtErrorDesc.setText(msg);
         btnErrorClose.setOnClickListener(v -> {
             alertDialog.dismiss();
         });

@@ -6,5 +6,6 @@ public interface MainActivityNavigator {
     void navigateToSearchScreen();
     void navigateToCalenderScreen();
     void navigateToUserProfileScreen();
-    void unauthorizedAccess(String msg);
+    void unauthorizedAccess(String errorTitle, String msg);
+    Boolean getInternetStatus();
 }

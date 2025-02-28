@@ -16,6 +16,7 @@ import com.example.tastyfood.mainActivity.view.MainActivity;
 import com.example.tastyfood.R;
 import com.example.tastyfood.splash.model.SplashNavigator;
 import com.example.tastyfood.splash.presenter.SplashPresenter;
+import com.example.tastyfood.util.InternetConnectivity;
 
 
 public class SplashFragment extends Fragment implements SplashNavigator {
@@ -30,7 +31,7 @@ public class SplashFragment extends Fragment implements SplashNavigator {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        splashPresenter = new SplashPresenter(this);
+        splashPresenter = new SplashPresenter(this, InternetConnectivity.isInternetAvailable(getContext()));
     }
 
     @Override
@@ -61,6 +62,11 @@ public class SplashFragment extends Fragment implements SplashNavigator {
     @Override
     public void navigateToWelcome() {
         navController.navigate(R.id.action_splashFragment_to_welcomeFragment);
+    }
+
+    @Override
+    public void navigateToFav() {
+        navController.navigate(R.id.action_global_favouriteFragment);
     }
 
     @Override
