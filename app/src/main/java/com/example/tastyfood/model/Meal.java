@@ -2,6 +2,7 @@ package com.example.tastyfood.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
@@ -21,6 +22,8 @@ public class Meal implements Serializable {
     private String strYoutube;
     private List<String> ingredients;
     private List<String> measures;
+    @Ignore
+    private String strIngredient;
 
     public Meal() {
         ingredients = new ArrayList<>();
@@ -39,9 +42,12 @@ public class Meal implements Serializable {
         this.ingredients.addAll(meal.getIngredients());
         this.measures = new ArrayList<>();
         this.measures.addAll(meal.getMeasures());
+        this.strIngredient = meal.strIngredient;
     }
 
-    public Meal(@NonNull String idMeal, String strMeal, String strCategory, String strArea, String strInstructions, String strMealThumb, String strYoutube, ArrayList<String> ingredients, ArrayList<String> measures) {
+    public Meal(@NonNull String idMeal, String strMeal, String strCategory, String strArea,
+                String strInstructions, String strMealThumb, String strYoutube,
+                ArrayList<String> ingredients, ArrayList<String> measures, String strIngredient) {
         this.idMeal = idMeal;
         this.strMeal = strMeal;
         this.strCategory = strCategory;
@@ -51,6 +57,7 @@ public class Meal implements Serializable {
         this.strYoutube = strYoutube;
         this.ingredients = ingredients;
         this.measures = measures;
+        this.strIngredient = strIngredient;
     }
 
     public void addIngredient(String ingredient){
@@ -129,6 +136,16 @@ public class Meal implements Serializable {
 
     public void setMeasures(ArrayList<String> measures) {
         this.measures = measures;
+    }
+
+    @Ignore
+    public String getStrIngredient() {
+        return strIngredient;
+    }
+    @Ignore
+
+    public void setStrIngredient(String strIngredient) {
+        this.strIngredient = strIngredient;
     }
 
     @Override

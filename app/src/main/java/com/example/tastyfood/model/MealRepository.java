@@ -15,7 +15,6 @@ import com.example.tastyfood.home.model.SingleMealViewer;
 import com.example.tastyfood.model.database.CalenderedMeal;
 import com.example.tastyfood.model.database.FavMeal;
 import com.example.tastyfood.model.database.MealLocalDataSource;
-import com.example.tastyfood.model.network.CategoryResponse;
 import com.example.tastyfood.model.network.MealApiService;
 import com.example.tastyfood.model.network.MealRemoteDataSource;
 import com.example.tastyfood.model.network.MealResponse;
@@ -126,33 +125,51 @@ public class MealRepository {
     }
     //Remote
     public void getMealsByFirstLetter(MealListViewer mealListViewer, char firstLetter){
-        Single<MealResponse> call = apiService.getMealsByFirstLetter(firstLetter);
-        call.compose(customSchedulers).subscribe(
-                response -> mealListViewer.showMealsList(response.getMeals()),
+        Single<MealResponse> response = apiService.getMealsByFirstLetter(firstLetter);
+        response.compose(customSchedulers).subscribe(
+                mealresponse -> mealListViewer.showMealsList(mealresponse.getMeals()),
                 onError -> mealListViewer.onFailed(onError.getLocalizedMessage())
         );
     }
     public void getMealById(SingleMealViewer singleMealViewer, String mealID){
-        Single<MealResponse> call = apiService.getMealById(mealID);
-        call.compose(customSchedulers).subscribe(
-                response -> singleMealViewer.showSingleMeal(response.getMeals().get(0)),
+        Single<MealResponse> response = apiService.getMealById(mealID);
+        response.compose(customSchedulers).subscribe(
+                mealresponse -> singleMealViewer.showSingleMeal(mealresponse.getMeals().get(0)),
                 onError -> singleMealViewer.showError(onError.getLocalizedMessage())
         );
     }
     public void getRandomMeal(SingleMealViewer singleMealViewer){
-        Single<MealResponse> call = apiService.getRandomMeal();
-        call.compose(customSchedulers).subscribe(
-                response -> singleMealViewer.showSingleMeal(response.getMeals().get(0)),
+        Single<MealResponse> response = apiService.getRandomMeal();
+        response.compose(customSchedulers).subscribe(
+                mealresponse -> singleMealViewer.showSingleMeal(mealresponse.getMeals().get(0)),
                 onError -> singleMealViewer.showError(onError.getLocalizedMessage())
         );
     }
 
-    public void getCategories(CategoryListViewer categoryListViewer){
-        Single<CategoryResponse> call = apiService.getCategories();
-        call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
-                response -> categoryListViewer.onSuccess(response.getCategories()),
-                onError -> categoryListViewer.onFailed()
-        );
+//    public void getCategories(CategoryListViewer categoryListViewer){
+//        Single<CategoryResponse> call = apiService.getCategories();
+//        call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
+//                response -> categoryListViewer.onSuccess(response.getCategories()),
+//                onError -> categoryListViewer.onFailed()
+//        );
+//    }
+    public Single<MealResponse> getRemoteCategories() {
+        return apiService.getListOfCategories();
+    }
+    public Single<MealResponse> getRemoteCountries() {
+        return apiService.getListOfCountries();
+    }
+    public Single<MealResponse> getRemoteIngredients() {
+        return apiService.getListOfIngredients();
+    }
+    public Single<MealResponse> getRemoteMealsFilteredByIngredient(String ingredient){
+        return apiService.getMealsFilteredByIngredient(ingredient);
+    }
+    public Single<MealResponse> getRemoteMealsFilteredByArea(String strArea){
+        return apiService.getMealsFilteredByCountry(strArea);
+    }
+    public Single<MealResponse> getRemoteMealsFilteredByCategory(String strCategory){
+        return apiService.getMealsFilteredByCategory(strCategory);
     }
 }
 

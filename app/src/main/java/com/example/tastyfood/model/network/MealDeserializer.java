@@ -14,13 +14,30 @@ public class MealDeserializer implements JsonDeserializer<Meal> {
     public Meal deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         Meal meal = new Meal();
-        meal.setIdMeal( jsonObject.get("idMeal").getAsString());
-        meal.setStrMeal(jsonObject.get("strMeal").getAsString());
-        meal.setStrCategory(jsonObject.get("strCategory").getAsString());
-        meal.setStrArea(jsonObject.get("strArea").getAsString());
-        meal.setStrInstructions(jsonObject.get("strInstructions").getAsString());
-        meal.setStrMealThumb(jsonObject.get("strMealThumb").getAsString());
-        meal.setStrYoutube(jsonObject.get("strYoutube").getAsString());
+        if (jsonObject.has("idMeal")){
+            meal.setIdMeal( jsonObject.get("idMeal").getAsString());
+        }
+        if (jsonObject.has("strMeal")){
+            meal.setStrMeal(jsonObject.get("strMeal").getAsString());
+        }
+        if (jsonObject.has("strCategory")){
+            meal.setStrCategory(jsonObject.get("strCategory").getAsString());
+        }
+        if (jsonObject.has("strArea")){
+            meal.setStrArea(jsonObject.get("strArea").getAsString());
+        }
+        if (jsonObject.has("strInstructions")){
+            meal.setStrInstructions(jsonObject.get("strInstructions").getAsString());
+        }
+        if (jsonObject.has("strMealThumb")){
+            meal.setStrMealThumb(jsonObject.get("strMealThumb").getAsString());
+        }
+        if (jsonObject.has("strYoutube")){
+            meal.setStrYoutube(jsonObject.get("strYoutube").getAsString());
+        }
+        if (jsonObject.has("strIngredient")){
+            meal.setStrIngredient(jsonObject.get("strIngredient").getAsString());
+        }
 
         for (int i = 1; i <= 20; i++) {
             String ingredientKey = "strIngredient" + i;

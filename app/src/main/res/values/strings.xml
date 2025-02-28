@@ -33,4 +33,7 @@
     <string name="delete_All_meals_from_calendar">Delete All Meals from Calendar</string>
     <string name="select_date">Select Date</string>
     <string name="your_planned_meals">Your Planned Meals</string>
+    <string name="ingredient">Ingredient</string>
+    <string name="category">Category</string>
+    <string name="country">Country</string>
 </resources>
