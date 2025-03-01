@@ -18,7 +18,7 @@ public class MainActivityPresenter {
         int itemId = item.getItemId();
 
         if (!mainActivityNavigator.getInternetStatus() && requiresInternet(itemId)) {
-            mainActivityNavigator.unauthorizedAccess("internet Connectivity error","Please Connect To The Internet To Access This Page");
+            mainActivityNavigator.unauthorizedAccess("Internet Connectivity Error","Please connect to the internet to access this page.");
             return false;
         }
 
@@ -28,9 +28,7 @@ public class MainActivityPresenter {
             mainActivityNavigator.navigateToUserProfileScreen();
         } else if (itemId == R.id.nav_search) {
             mainActivityNavigator.navigateToCategorySearchScreen();
-        } /*else if (itemId == R.id.nav_global_search){
-            mainActivityNavigator.navigateToGlobalSearchScreen();
-        }*/else if (itemId == R.id.nav_fav || itemId == R.id.nav_calender) {
+        } else if (itemId == R.id.nav_fav || itemId == R.id.nav_calender) {
             if (UserValidation.validateUser()) {
                 if (itemId == R.id.nav_fav) {
                     mainActivityNavigator.navigateToFavScreen();
@@ -38,7 +36,7 @@ public class MainActivityPresenter {
                     mainActivityNavigator.navigateToCalenderScreen();
                 }
             } else {
-                mainActivityNavigator.unauthorizedAccess("Unauthorized Access","To Access This Feature Please Login from profile screen");
+                mainActivityNavigator.unauthorizedAccess("Unauthorized Access","To access this feature, please log in from the profile screen.");
                 return false;
             }
         }

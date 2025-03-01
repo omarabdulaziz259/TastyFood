@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.tastyfood.R;
 import com.example.tastyfood.model.Meal;
@@ -102,12 +103,10 @@ public class PlannedFragment extends Fragment implements PlannedHandler {
                 public boolean isValid(long date) {
                     return date >= today && date <= nextWeek;
                 }
-
                 @Override
                 public int describeContents() {
                     return 0;
                 }
-
                 @Override
                 public void writeToParcel(Parcel dest, int flags) {
                 }

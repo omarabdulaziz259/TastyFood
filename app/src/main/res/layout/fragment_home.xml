@@ -35,17 +35,17 @@
             android:layout_height="310dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="H,16:9"
-            android:src="@drawable/ic_launcher_background" />
+            android:src="@drawable/ic_launcher_background"
+            app:layout_constraintDimensionRatio="H,16:9" />
 
         <TextView
             android:id="@+id/txtNameMealOfTheDay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|bottom"
-            android:gravity="center"
             android:background="@drawable/white_bkground_lower_opacity"
             android:fontFamily="@font/poppins"
+            android:gravity="center"
             android:text="This is the name of card"
             android:textColor="@color/black"
             android:textSize="24sp" />

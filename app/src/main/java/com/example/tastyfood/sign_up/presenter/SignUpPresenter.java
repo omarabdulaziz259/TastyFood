@@ -20,15 +20,19 @@ public class SignUpPresenter {
 
     public Boolean validateUserInputs(String email, String password, String passwordConfirm){
         if (email.isEmpty()){
-            SignUpNavigator.onSignUpFailed("Please Input Your E-mail");
+            SignUpNavigator.onSignUpFailed("Please enter your email.");
             return false;
         }
         else if (passwordConfirm.isEmpty() || password.isEmpty()){
-            SignUpNavigator.onSignUpFailed("Please Fill Your Password and Password Confirmation");
+            SignUpNavigator.onSignUpFailed("Please fill in your password and password confirmation.");
+            return false;
+        }
+        else if (password.length() < 8){
+            SignUpNavigator.onSignUpFailed("Your password must be at least 8 characters long.");
             return false;
         }
         else if (!password.equals(passwordConfirm)){
-            SignUpNavigator.onSignUpFailed("Your Password Must Match Password Confirm\"");
+            SignUpNavigator.onSignUpFailed("Your password must match the password confirmation.");
             return false;
         }
         return true;
