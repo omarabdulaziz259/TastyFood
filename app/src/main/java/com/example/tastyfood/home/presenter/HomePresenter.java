@@ -10,6 +10,7 @@ import com.example.tastyfood.model.Meal;
 import com.example.tastyfood.model.MealListViewer;
 import com.example.tastyfood.model.MealRepository;
 import com.example.tastyfood.model.database.MealLocalDataSource;
+import com.example.tastyfood.util.RandomLetterGenerator;
 
 import java.time.LocalDate;
 
@@ -57,6 +58,6 @@ public class HomePresenter {
     }
 
     public void getTopPicksMeals(MealListViewer mealListViewer){
-        mealRepository.getMealsByFirstLetter(mealListViewer, 'K');
+        mealRepository.getMealsByFirstLetter(mealListViewer, RandomLetterGenerator.getRandomLetter());
     }
 }
