@@ -17,9 +17,6 @@ import com.example.tastyfood.mainActivity.presenter.MainActivityPresenter;
 import com.example.tastyfood.util.InternetConnectivity;
 import com.example.tastyfood.util.UserValidation;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.ktx.Firebase;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -94,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
     }
 
     @Override
-    public void navigateToSearchScreen() {
+    public void navigateToCategorySearchScreen() {
         navController.navigate(R.id.action_global_searchFragment);
     }
 
@@ -103,6 +100,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
         navController.navigate(R.id.action_global_plannedFragment);
     }
 
+//    @Override
+//    public void navigateToGlobalSearchScreen(){
+//        navController.navigate(R.id.action_global_globalSearchFragment);
+//    }
     @Override
     public void navigateToUserProfileScreen() {
         navController.navigate(R.id.action_global_userProfileFragment);

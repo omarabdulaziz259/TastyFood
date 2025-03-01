@@ -6,13 +6,15 @@ import retrofit2.http.Query;
 
 public interface MealApiService {
     @GET("search.php")
+    Single<MealResponse> getSearchedMeals(@Query("s") String searchText);
+    @GET("search.php")
     Single<MealResponse> getMealsByFirstLetter(@Query("f") char firstLetter);
     @GET("lookup.php")
     Single<MealResponse> getMealById(@Query("i") String mealId);
     @GET("random.php")
     Single<MealResponse> getRandomMeal();
-    @GET("categories.php")
-    Single<CategoryResponse> getCategories();
+//    @GET("categories.php")
+//    Single<CategoryResponse> getCategories();
     @GET("filter.php")
     Single<MealResponse> getMealsFilteredByIngredient(@Query("i") String ingredient);
     @GET("filter.php")

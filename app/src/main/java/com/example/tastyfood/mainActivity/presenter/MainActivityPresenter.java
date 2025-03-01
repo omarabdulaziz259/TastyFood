@@ -18,7 +18,7 @@ public class MainActivityPresenter {
         int itemId = item.getItemId();
 
         if (!mainActivityNavigator.getInternetStatus() && requiresInternet(itemId)) {
-            mainActivityNavigator.unauthorizedAccess("internet Connectivity error","Please Connect To The Internet To Access This Page\n\"To Login -> Profile -> SignIn/SignUp");
+            mainActivityNavigator.unauthorizedAccess("internet Connectivity error","Please Connect To The Internet To Access This Page");
             return false;
         }
 
@@ -27,8 +27,10 @@ public class MainActivityPresenter {
         } else if (itemId == R.id.nav_profile) {
             mainActivityNavigator.navigateToUserProfileScreen();
         } else if (itemId == R.id.nav_search) {
-            mainActivityNavigator.navigateToSearchScreen();
-        } else if (itemId == R.id.nav_fav || itemId == R.id.nav_calender) {
+            mainActivityNavigator.navigateToCategorySearchScreen();
+        } /*else if (itemId == R.id.nav_global_search){
+            mainActivityNavigator.navigateToGlobalSearchScreen();
+        }*/else if (itemId == R.id.nav_fav || itemId == R.id.nav_calender) {
             if (UserValidation.validateUser()) {
                 if (itemId == R.id.nav_fav) {
                     mainActivityNavigator.navigateToFavScreen();
@@ -36,7 +38,7 @@ public class MainActivityPresenter {
                     mainActivityNavigator.navigateToCalenderScreen();
                 }
             } else {
-                mainActivityNavigator.unauthorizedAccess("Unauthorized Access","To Access This Feature Please Login");
+                mainActivityNavigator.unauthorizedAccess("Unauthorized Access","To Access This Feature Please Login from profile screen");
                 return false;
             }
         }
@@ -44,6 +46,6 @@ public class MainActivityPresenter {
     };
 
     private boolean requiresInternet(int itemId) {
-        return itemId == R.id.nav_home || itemId == R.id.nav_search;
+        return itemId == R.id.nav_home || itemId == R.id.nav_search /*|| itemId == R.id.nav_global_search*/;
     }
 }

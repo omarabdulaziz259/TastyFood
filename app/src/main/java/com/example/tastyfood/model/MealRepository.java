@@ -167,4 +167,7 @@ public class MealRepository {
     public Single<MealResponse> getRemoteMealsFilteredByCategory(String strCategory){
         return apiService.getMealsFilteredByCategory(strCategory);
     }
+    public Single<MealResponse> getRemoteSearchedMeals(String searchText){
+        return apiService.getSearchedMeals(searchText);
+    }
 }

@@ -112,7 +112,19 @@
         <action
             android:id="@+id/action_searchFragment_to_detailedMealFragment"
             app:destination="@id/detailedMealFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_globalSearchFragment"
+            app:destination="@id/globalSearchFragment" />
     </fragment>
     <action android:id="@+id/action_global_searchFragment" app:destination="@id/searchFragment" />
     <action android:id="@+id/action_global_welcomeFragment" app:destination="@id/welcomeFragment" />
+    <fragment
+        android:id="@+id/globalSearchFragment"
+        android:name="com.example.tastyfood.GlobalSearch.view.GlobalSearchFragment"
+        android:label="fragment_global_search"
+        tools:layout="@layout/fragment_global_search" >
+        <action
+            android:id="@+id/action_globalSearchFragment_to_detailedMealFragment"
+            app:destination="@id/detailedMealFragment" />
+    </fragment>
 </navigation>

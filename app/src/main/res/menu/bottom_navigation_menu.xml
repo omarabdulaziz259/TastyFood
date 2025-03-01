@@ -8,10 +8,14 @@
         android:id="@+id/nav_fav"
         android:icon="@drawable/favorite_filled"
         android:title="Favourite"/>
+<!--    <item-->
+<!--        android:id="@+id/nav_global_search"-->
+<!--        android:icon="@drawable/search"-->
+<!--        android:title="Search"/>-->
     <item
         android:id="@+id/nav_search"
-        android:icon="@drawable/search"
-        android:title="Search"/>
+        android:icon="@drawable/category"
+        android:title="Categories"/>
     <item
         android:id="@+id/nav_calender"
         android:icon="@drawable/calendar"

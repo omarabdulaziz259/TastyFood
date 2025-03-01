@@ -33,6 +33,7 @@ import com.example.tastyfood.search.model.SearchViewer;
 import com.example.tastyfood.search.presenter.SearchPresenter;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -53,8 +54,9 @@ public class SearchFragment extends Fragment implements SearchViewer, SearchNavi
     private RecyclerView recyclerViewSearch;
     private SearchPresenter searchPresenter;
     private SearchAdapter searchAdapter;
+    private FloatingActionButton fabSearch;
+
     private NavController navController;
-//    private List<Meal> allMeals = new ArrayList<>();
 
     public SearchFragment() {}
 
@@ -84,6 +86,23 @@ public class SearchFragment extends Fragment implements SearchViewer, SearchNavi
         recyclerViewSearch.setLayoutManager(layoutManager);
         recyclerViewSearch.setAdapter(searchAdapter);
 
+
+        fabSearch = view.findViewById(R.id.fabSearch);
+        fabSearch.setOnClickListener(v ->
+                navController.navigate(R.id.action_searchFragment_to_globalSearchFragment)
+        );
+
+        recyclerViewSearch.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) {
+                    fabSearch.hide();
+                } else if (dy < 0) {
+                    fabSearch.show();
+                }
+            }
+        });
         searchPresenter = new SearchPresenter(
                 MealRepository.getInstance(MealLocalDataSource.getDatabaseManager(requireContext()))
                 , this);
@@ -102,7 +121,6 @@ public class SearchFragment extends Fragment implements SearchViewer, SearchNavi
         setTxtSearchObserver();
     }
 
-    @SuppressLint("CheckResult")
     private void setTxtSearchObserver() {
         Observable<String> obs = Observable.create(emitter -> {
             txtSearch.addTextChangedListener(new TextWatcher() {
@@ -153,7 +171,7 @@ public class SearchFragment extends Fragment implements SearchViewer, SearchNavi
 
     @Override
     public void failed(String msg) {
-        Snackbar.make(getView(), msg, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(requireView(), msg, Snackbar.LENGTH_SHORT).show();
     }
 
     private void clearSearchTxt(){
@@ -186,7 +204,6 @@ public class SearchFragment extends Fragment implements SearchViewer, SearchNavi
 
     @Override
     public void showSingleMeal(Meal meal) {
-        Log.i("TAG", "navigateToDetailedMeal: " + meal);
         SearchFragmentDirections.ActionSearchFragmentToDetailedMealFragment action =
                 SearchFragmentDirections.actionSearchFragmentToDetailedMealFragment(meal);
         navController.navigate(action);

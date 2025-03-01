@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.tastyfood.R;
-import com.example.tastyfood.home.model.HomeNavigator;
 import com.example.tastyfood.model.Meal;
 import com.example.tastyfood.search.model.SearchNavigator;
 import com.example.tastyfood.util.CountryCode;
@@ -96,6 +95,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
                     .placeholder(R.drawable.logo)
                     .error(R.drawable.error)
                     .into(holder.imgSearchCell);
+
         } else if(type == MEALS){
             holder.txtSearchCell.setText(meal.getStrMeal());
             holder.constraintLayoutSearchCell.setOnClickListener(v -> {
