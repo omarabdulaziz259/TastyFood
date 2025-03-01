@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.example.tastyfood.R;
 import com.example.tastyfood.model.Meal;
 import com.example.tastyfood.planned.model.PlannedHandler;
+import com.example.tastyfood.util.InternetConnectivity;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -50,7 +51,13 @@ public class PlannedAdapter extends RecyclerView.Adapter<PlannedAdapter.ViewHold
         holder.ConstraintLayoutCellPlanned.setOnClickListener(v ->
             plannedHandler.navigateToDetailedMeal(mealList.get(position))
         );
-        holder.btnDeletePlannedMeal.setOnClickListener( v -> deleteItemInPosition(position, v));
+        holder.btnDeletePlannedMeal.setOnClickListener( v ->{
+            if (!InternetConnectivity.isInternetAvailable(context)){
+                plannedHandler.btnDeleteFailed("connection to internet is required");
+                return;
+            }
+            deleteItemInPosition(position, v);
+        });
 
         Glide.with(context).load(mealList.get(position).getStrMealThumb())
                 .placeholder(R.drawable.logo)

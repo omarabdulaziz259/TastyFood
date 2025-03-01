@@ -27,6 +27,7 @@ import com.example.tastyfood.model.Meal;
 import com.example.tastyfood.model.MealRepository;
 import com.example.tastyfood.model.database.MealLocalDataSource;
 import com.example.tastyfood.util.CountryCode;
+import com.example.tastyfood.util.InternetConnectivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -125,6 +126,10 @@ public class DetailedMealFragment extends Fragment implements MealSaver {
     }
 private void setupCalendarBtnFunction() {
     btnCalender.setOnClickListener(v -> {
+        if (!InternetConnectivity.isInternetAvailable(requireContext())){
+            Snackbar.make(requireView(), "Connection to internet is required", Snackbar.LENGTH_LONG).show();
+            return;
+        }
         long today = MaterialDatePicker.todayInUtcMilliseconds();
         long nextWeek = today + TimeUnit.DAYS.toMillis(6);
 
@@ -201,6 +206,10 @@ private void setupCalendarBtnFunction() {
         if (doReverse){
             btnFav.setIconResource(R.drawable.favorite_filled);
             btnFav.setOnClickListener(v -> {
+                if (!InternetConnectivity.isInternetAvailable(requireContext())){
+                    Snackbar.make(requireView(), "Connection to internet is required", Snackbar.LENGTH_LONG).show();
+                    return;
+                }
                 detailedMealPresenter.deleteFavMeal(meal);
             });
         }

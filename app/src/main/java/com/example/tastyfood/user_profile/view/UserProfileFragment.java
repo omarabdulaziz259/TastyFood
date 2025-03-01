@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -79,7 +80,15 @@ public class UserProfileFragment extends Fragment implements UserProfileHandler 
 
         btnSignOutFromApp.setOnClickListener(v -> {
             if (UserValidation.validateUser()){
-                userProfilePresenter.clearAllData();
+                new AlertDialog.Builder(requireContext())
+                        .setTitle("Confirmation")
+                        .setMessage("Are you sure, you want to sign out?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            userProfilePresenter.clearAllData();
+                        })
+                        .setNegativeButton("No", (dialog, which) -> {
+                            dialog.dismiss();
+                        }).show();
             }else {
                 navController.navigate(R.id.action_userProfileFragment_to_welcomeFragment);
             }

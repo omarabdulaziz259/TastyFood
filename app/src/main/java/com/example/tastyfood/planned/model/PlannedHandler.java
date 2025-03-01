@@ -9,4 +9,5 @@ public interface PlannedHandler {
     void deleteCalendaredMeal(Meal meal);
     void onSuccess(List<Meal> mealList);
     void onFailed(String msg);
+    void btnDeleteFailed(String msg);
 }

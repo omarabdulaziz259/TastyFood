@@ -149,11 +149,11 @@ public class PlannedFragment extends Fragment implements PlannedHandler {
     @Override
     public void onFailed(String msg) {
         plannedAdapter.setMealsList(new ArrayList<>());
-        View rootView = getView();
-        if (rootView != null) {
-            Snackbar.make(rootView, msg, Snackbar.LENGTH_SHORT).show();
-        } else {
-            Log.e("PlannedFragment", "Snackbar could not be shown: No root view found.");
-        }
+        Snackbar.make(requireView(), msg, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void btnDeleteFailed(String msg) {
+        Snackbar.make(requireView(), msg, Snackbar.LENGTH_SHORT).show();
     }
 }
