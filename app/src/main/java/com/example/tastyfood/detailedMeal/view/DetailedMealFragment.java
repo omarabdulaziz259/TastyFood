@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Parcel;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,6 @@ import com.example.tastyfood.model.database.MealLocalDataSource;
 import com.example.tastyfood.util.CountryCode;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.CalendarConstraints;
-import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -49,11 +47,9 @@ public class DetailedMealFragment extends Fragment implements MealSaver {
     private DetailedMealAdapter detailedMealAdapter;
 
     private Meal meal;
-    public DetailedMealFragment() {
-        // Required empty public constructor
-    }
+    public DetailedMealFragment() {}
 
-    public static DetailedMealFragment newInstance(String param1, String param2) {
+    public static DetailedMealFragment newInstance() {
         return new DetailedMealFragment();
     }
 

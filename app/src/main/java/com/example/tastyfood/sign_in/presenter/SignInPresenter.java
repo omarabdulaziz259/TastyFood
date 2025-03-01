@@ -1,11 +1,7 @@
 package com.example.tastyfood.sign_in.presenter;
 
-import android.util.Log;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 
-import com.example.tastyfood.R;
 import com.example.tastyfood.sign_in.model.SignInNavigator;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

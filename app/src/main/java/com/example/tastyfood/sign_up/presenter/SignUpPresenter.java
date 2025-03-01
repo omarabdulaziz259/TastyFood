@@ -1,6 +1,5 @@
 package com.example.tastyfood.sign_up.presenter;
 
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 

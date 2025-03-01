@@ -1,7 +1,6 @@
 package com.example.tastyfood.detailedMeal.presenter;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 
 import com.example.tastyfood.detailedMeal.model.MealSaver;
 import com.example.tastyfood.model.Meal;
@@ -11,15 +10,11 @@ import com.example.tastyfood.model.database.FavMeal;
 import com.example.tastyfood.util.UserValidation;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.annotations.NonNull;
-import io.reactivex.rxjava3.core.MaybeObserver;
-import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class DetailedMealPresenter {
     private MealRepository mealRepository;
     private MealSaver mealSaver;
-    private static final String TAG = "RemoveFromDB";
 
     public DetailedMealPresenter(MealRepository mealRepository, MealSaver mealSaver){
         this.mealSaver = mealSaver;
@@ -84,21 +79,4 @@ public class DetailedMealPresenter {
         mealRepository.insertMeal(meal).subscribeOn(Schedulers.io())
                 .subscribe();
     }
-//    @SuppressLint("CheckResult")
-//    private void removeMealFromDB(Meal meal){
-//        mealRepository.getCalenderedMealById(meal.getIdMeal()).subscribeOn(Schedulers.io())
-//                .subscribe(
-//                        calenderedMeal -> {},
-//                        error -> {},
-//                        () -> {
-//                            mealRepository.getFavMealById(meal.getIdMeal()).subscribeOn(Schedulers.io())
-//                                    .subscribe(
-//                                            favMeal -> {},
-//                                            error -> {},
-//                                            () -> mealRepository.deleteMeal(meal).subscribeOn(Schedulers.io()).subscribe()
-//                                    );
-//
-//                        }
-//                );
-//    }
 }

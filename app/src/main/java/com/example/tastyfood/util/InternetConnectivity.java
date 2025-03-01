@@ -9,7 +9,6 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class InternetConnectivity {
     public static boolean isInternetAvailable(Context context) {
@@ -47,7 +46,6 @@ public class InternetConnectivity {
                             }
                         });
                     } else {
-                        // For older versions, use BroadcastReceiver
                         BroadcastReceiver networkReceiver = new BroadcastReceiver() {
                             @Override
                             public void onReceive(Context context, Intent intent) {

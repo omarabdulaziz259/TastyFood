@@ -58,5 +58,4 @@ public class DetailedMealAdapter extends RecyclerView.Adapter<DetailedMealAdapte
             txtCellMeasure = itemView.findViewById(R.id.txtCellMeasure);
         }
     }
-
 }

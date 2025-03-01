@@ -38,7 +38,6 @@ public class MealDeserializer implements JsonDeserializer<Meal> {
         if (jsonObject.has("strIngredient")){
             meal.setStrIngredient(jsonObject.get("strIngredient").getAsString());
         }
-
         for (int i = 1; i <= 20; i++) {
             String ingredientKey = "strIngredient" + i;
             String measureKey = "strMeasure" + i;
@@ -59,6 +58,4 @@ public class MealDeserializer implements JsonDeserializer<Meal> {
 
         return meal;
         }
-
 }
-

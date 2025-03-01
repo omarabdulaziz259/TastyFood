@@ -108,8 +108,7 @@ public class SearchFragment extends Fragment implements SearchViewer, SearchNavi
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     if(s != null)
-                    emitter.onNext(s.toString());
-                    Log.i("TAG", "onTextChanged: " + s.toString());
+                        emitter.onNext(s.toString());
                 }
                 @Override
                 public void afterTextChanged(Editable s) {}

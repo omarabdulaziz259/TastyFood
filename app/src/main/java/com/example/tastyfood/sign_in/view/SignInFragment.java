@@ -29,7 +29,6 @@ public class SignInFragment extends Fragment implements SignInNavigator {
     Button btnSignInToApp;
     SignInPresenter signInPresenter;
     public SignInFragment() {
-        // Required empty public constructor
     }
 
     public static SignInFragment newInstance() {

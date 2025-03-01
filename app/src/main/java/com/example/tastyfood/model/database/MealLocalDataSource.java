@@ -87,7 +87,4 @@ public class MealLocalDataSource {
     public Flowable<List<Meal>> getMealsByDate(String date){
         return mealDao.getMealsByDate(date);
     }
-
-
 }
-

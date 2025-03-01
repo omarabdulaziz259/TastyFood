@@ -38,7 +38,6 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class WelcomeFragment extends Fragment implements WelcomeNavigator {
 
-//    WelcomePresenter welcomePresenter;
     private FirebaseAuth  mAuth;
     private GoogleSignInClient googleSignInClient;
     private ActivityResultLauncher<Intent> googleSignInLauncher;
@@ -69,7 +68,6 @@ public class WelcomeFragment extends Fragment implements WelcomeNavigator {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        welcomePresenter = new WelcomePresenter();
         navController = Navigation.findNavController(view);
         mAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

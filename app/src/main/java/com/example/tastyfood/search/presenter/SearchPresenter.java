@@ -4,7 +4,6 @@ import com.example.tastyfood.home.model.SingleMealViewer;
 import com.example.tastyfood.model.MealRepository;
 import com.example.tastyfood.search.model.SearchViewer;
 
-import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;

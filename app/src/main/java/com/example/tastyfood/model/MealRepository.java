@@ -146,13 +146,6 @@ public class MealRepository {
         );
     }
 
-//    public void getCategories(CategoryListViewer categoryListViewer){
-//        Single<CategoryResponse> call = apiService.getCategories();
-//        call.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
-//                response -> categoryListViewer.onSuccess(response.getCategories()),
-//                onError -> categoryListViewer.onFailed()
-//        );
-//    }
     public Single<MealResponse> getRemoteCategories() {
         return apiService.getListOfCategories();
     }
@@ -172,4 +165,3 @@ public class MealRepository {
         return apiService.getMealsFilteredByCategory(strCategory);
     }
 }
-

@@ -27,11 +27,10 @@ public class SignUpFragment extends Fragment implements SignUpNavigator {
     private Button btnSignUpToApp;
     private SignUpPresenter signUpPresenter;
     public SignUpFragment() {
-        // Required empty public constructor
     }
 
 
-    public static SignUpFragment newInstance(String param1, String param2) {
+    public static SignUpFragment newInstance() {
         return new SignUpFragment();
     }
 

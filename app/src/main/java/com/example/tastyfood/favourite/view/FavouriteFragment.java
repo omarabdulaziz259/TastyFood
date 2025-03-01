@@ -33,12 +33,9 @@ public class FavouriteFragment extends Fragment implements FavouriteHandler {
     private RecyclerView recyclerViewFavourite;
     private FavouriteAdapter favouriteAdapter;
     private NavController navController;
-    public FavouriteFragment() {
-        // Required empty public constructor
-    }
+    public FavouriteFragment() {}
 
-    public static FavouriteFragment newInstance(String param1, String param2) {
-
+    public static FavouriteFragment newInstance() {
         return new FavouriteFragment();
     }
 
@@ -57,7 +54,6 @@ public class FavouriteFragment extends Fragment implements FavouriteHandler {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         favouritePresenter = new FavouritePresenter(
                 MealRepository.getInstance(MealLocalDataSource.getDatabaseManager(requireContext())),
                 this);
