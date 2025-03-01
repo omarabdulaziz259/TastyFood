@@ -54,7 +54,7 @@ public class SearchFragment extends Fragment implements SearchViewer, SearchNavi
     private SearchPresenter searchPresenter;
     private SearchAdapter searchAdapter;
     private NavController navController;
-    private List<Meal> allMeals = new ArrayList<>();
+//    private List<Meal> allMeals = new ArrayList<>();
 
     public SearchFragment() {}
 
@@ -96,77 +96,58 @@ public class SearchFragment extends Fragment implements SearchViewer, SearchNavi
                 searchPresenter.getIngredients();
             }
         });
+        Chip chipSearchCountry = view.findViewById(R.id.chipSearchCountry);
+        chipSearchCountry.setChecked(true);
+
         setTxtSearchObserver();
     }
 
     @SuppressLint("CheckResult")
-    private void setTxtSearchObserver(){
+    private void setTxtSearchObserver() {
         Observable<String> obs = Observable.create(emitter -> {
             txtSearch.addTextChangedListener(new TextWatcher() {
                 @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if(s != null)
+                    if (s != null)
                         emitter.onNext(s.toString());
                 }
+
                 @Override
-                public void afterTextChanged(Editable s) {}
+                public void afterTextChanged(Editable s) {
+                }
             });
         });
-
-        obs.debounce(400, TimeUnit.MILLISECONDS)
-                .map(searchString ->  searchString.toLowerCase())
-                .flatMap(searchString -> Observable.fromIterable(allMeals)
-                        .filter(meal -> {
-                            switch (searchAdapter.getType()){
-                                case SearchAdapter.CATEGORIES:
-                                    return meal.getStrCategory().toLowerCase().contains(searchString);
-                                case SearchAdapter.COUNTRIES:
-                                    return meal.getStrArea().toLowerCase().contains(searchString);
-                                case SearchAdapter.INGREDIENTS:
-                                    return meal.getStrIngredient().toLowerCase().contains(searchString);
-                                case SearchAdapter.MEALS:
-                                    return meal.getStrMeal().toLowerCase().contains(searchString);
-                            }
-                            return false;
-                        })
-                        .toList()
-                        .toObservable())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        filteredMeals -> {
-                            Log.i("TAG", "setTxtSearchObserver: " + filteredMeals.toString());
-                            searchAdapter.setMealsList(filteredMeals);
-                        },
-                        error -> error.printStackTrace()
-                );
+        searchPresenter.setTxtSearchObserver(obs, searchAdapter);
     }
+
     @Override
     public void showCountries(List<Meal> meals) {
-        allMeals.clear();
-        allMeals.addAll(meals);
+        searchPresenter.setAllMeals(meals);
+        clearSearchTxt();
         searchAdapter.setMealsList(meals, SearchAdapter.COUNTRIES);
     }
 
     @Override
     public void showCategories(List<Meal> meals) {
-        allMeals.clear();
-        allMeals.addAll(meals);
+        searchPresenter.setAllMeals(meals);
+        clearSearchTxt();
         searchAdapter.setMealsList(meals, SearchAdapter.CATEGORIES);
     }
 
     @Override
     public void showIngredients(List<Meal> meals) {
-        allMeals.clear();
-        allMeals.addAll(meals);
+        searchPresenter.setAllMeals(meals);
+        clearSearchTxt();
         searchAdapter.setMealsList(meals, SearchAdapter.INGREDIENTS);
     }
 
     @Override
     public void showFilteredMeals(List<Meal> meals) {
-        allMeals.clear();
-        allMeals.addAll(meals);
+        searchPresenter.setAllMeals(meals);
         searchAdapter.setMealsList(meals, SearchAdapter.MEALS);
     }
 
