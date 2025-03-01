@@ -16,6 +16,8 @@ import android.widget.EditText;
 
 import com.example.tastyfood.mainActivity.view.MainActivity;
 import com.example.tastyfood.R;
+import com.example.tastyfood.model.MealRepository;
+import com.example.tastyfood.model.database.MealLocalDataSource;
 import com.example.tastyfood.sign_in.model.SignInNavigator;
 import com.example.tastyfood.sign_in.presenter.SignInPresenter;
 import com.google.android.material.snackbar.Snackbar;
@@ -25,9 +27,9 @@ public class SignInFragment extends Fragment implements SignInNavigator {
 
     private NavController navController;
 
-    EditText txtEditEmail, txtEditPassword;
-    Button btnSignInToApp;
-    SignInPresenter signInPresenter;
+    private EditText txtEditEmail, txtEditPassword;
+    private Button btnSignInToApp;
+    private SignInPresenter signInPresenter;
     public SignInFragment() {
     }
 
@@ -44,7 +46,8 @@ public class SignInFragment extends Fragment implements SignInNavigator {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        signInPresenter = new SignInPresenter(this);
+        signInPresenter = new SignInPresenter(this,
+                MealRepository.getInstance(MealLocalDataSource.getDatabaseManager(requireContext())));
     }
 
     @Override

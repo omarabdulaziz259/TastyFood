@@ -17,10 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.tastyfood.mainActivity.view.MainActivity;
 import com.example.tastyfood.R;
+import com.example.tastyfood.model.MealRepository;
+import com.example.tastyfood.model.database.MealLocalDataSource;
 import com.example.tastyfood.util.InternetConnectivity;
 import com.example.tastyfood.welcome.model.WelcomeNavigator;
 import com.example.tastyfood.welcome.presenter.WelcomePresenter;
@@ -30,6 +31,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,8 +46,8 @@ public class WelcomeFragment extends Fragment implements WelcomeNavigator {
     private NavController navController;
     private Button btnSignInWithEmail, btnSignInWithGoogle, btnAsAGuest;
     private TextView txtSignUp;
+    private WelcomePresenter welcomePresenter;
     public WelcomeFragment() {
-        // Required empty public constructor
     }
 
 
@@ -68,6 +70,8 @@ public class WelcomeFragment extends Fragment implements WelcomeNavigator {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        welcomePresenter = new WelcomePresenter(
+                MealRepository.getInstance(MealLocalDataSource.getDatabaseManager(getContext())));
         navController = Navigation.findNavController(view);
         mAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -85,7 +89,7 @@ public class WelcomeFragment extends Fragment implements WelcomeNavigator {
                             GoogleSignInAccount account = task.getResult(ApiException.class);
                             firebaseAuthWithGoogle(account.getIdToken());
                         } catch (ApiException e) {
-                            Toast.makeText(requireContext(), "Google Sign-In Failed", Toast.LENGTH_SHORT).show();
+                            Snackbar.make(requireView(), "Google Sign-In Failed", Snackbar.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -108,7 +112,6 @@ public class WelcomeFragment extends Fragment implements WelcomeNavigator {
     private void signIn() {
         Intent signInIntent = googleSignInClient.getSignInIntent();
         googleSignInLauncher.launch(signInIntent);
-        //todo download favourite and calendered meals from firebase
     }
 
     private void firebaseAuthWithGoogle(String idToken) {
@@ -118,6 +121,7 @@ public class WelcomeFragment extends Fragment implements WelcomeNavigator {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         updateUI(user);
+                        welcomePresenter.getRemoteData();
                     } else {
                         updateUI(null);
                     }
@@ -127,7 +131,7 @@ public class WelcomeFragment extends Fragment implements WelcomeNavigator {
         if (user != null) {
             navController.navigate(R.id.action_welcomeFragment_to_homeFragment);
         } else {
-            Toast.makeText(requireContext(), "Sign-In Failed", Toast.LENGTH_SHORT).show();
+            Snackbar.make(requireView(), "Sign-In Failed", Snackbar.LENGTH_SHORT).show();
         }
     }
 

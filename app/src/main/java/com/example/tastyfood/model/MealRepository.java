@@ -56,7 +56,7 @@ public class MealRepository {
         return mealLocalDataSource.deleteMeal(meal);
     }
 
-    public Maybe<Meal> getMealById(String idMeal){
+    public Maybe<Meal> getMealByIdFromDB(String idMeal){
         return mealLocalDataSource.getMealById(idMeal);
     }
 
@@ -137,6 +137,9 @@ public class MealRepository {
                 mealresponse -> singleMealViewer.showSingleMeal(mealresponse.getMeals().get(0)),
                 onError -> singleMealViewer.showError(onError.getLocalizedMessage())
         );
+    }
+    public Single<MealResponse> getMealById(String mealID){
+        return apiService.getMealById(mealID);
     }
     public void getRandomMeal(SingleMealViewer singleMealViewer){
         Single<MealResponse> response = apiService.getRandomMeal();

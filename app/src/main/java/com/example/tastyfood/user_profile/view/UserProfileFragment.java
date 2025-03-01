@@ -88,7 +88,7 @@ public class UserProfileFragment extends Fragment implements UserProfileHandler 
 
     @Override
     public void failed() {
-        Snackbar.make(getView(), "Failed to sign out please try again later", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(requireView(), "Failed to sign out please try again later", Snackbar.LENGTH_LONG).show();
     }
 
     @Override

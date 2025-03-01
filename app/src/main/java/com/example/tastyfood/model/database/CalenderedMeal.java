@@ -11,6 +11,9 @@ public class CalenderedMeal {
     @NonNull
     private String date;
 
+    public CalenderedMeal(){
+
+    }
     public CalenderedMeal(@NonNull String idMeal, String date) {
         this.idMeal = idMeal;
         this.date = date;

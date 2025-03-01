@@ -88,7 +88,7 @@ public class PlannedPresenter {
                             if (!calenderedMeals.isEmpty()){
                                 for (CalenderedMeal meal: calenderedMeals){
                                     if (DateChecker.isDateInPast(meal.getDate())){
-                                        repository.getMealById(meal.getIdMeal())
+                                        repository.getMealByIdFromDB(meal.getIdMeal())
                                                 .subscribeOn(Schedulers.io())
                                                 .doOnSuccess( detailedMeal -> FireStoreManager.deleteCalendarMeal(new CalenderedMeal(detailedMeal.getIdMeal(), meal.getDate())))
                                                 .observeOn(Schedulers.io())

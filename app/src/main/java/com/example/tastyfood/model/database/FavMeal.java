@@ -9,6 +9,12 @@ public class FavMeal {
     @PrimaryKey
     @NonNull
     private String idMeal;
+    public FavMeal() {
+    }
+
+    public void setIdMeal(@NonNull String idMeal) {
+        this.idMeal = idMeal;
+    }
 
     public FavMeal(@NonNull String idMeal) {
         this.idMeal = idMeal;
