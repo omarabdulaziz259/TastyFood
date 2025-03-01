@@ -18,6 +18,8 @@ import com.example.tastyfood.util.InternetConnectivity;
 import com.example.tastyfood.util.UserValidation;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.ktx.Firebase;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -27,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
     private BottomNavigationView bottomNav;
     private NavController navController;
     private AlertDialog alertDialog;
-
 
 
     @Override

@@ -10,6 +10,7 @@ import com.example.tastyfood.model.MealRepository;
 import com.example.tastyfood.model.database.CalenderedMeal;
 import com.example.tastyfood.planned.model.PlannedHandler;
 import com.example.tastyfood.util.DateChecker;
+import com.example.tastyfood.util.FireStoreManager;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -58,8 +59,13 @@ public class PlannedPresenter {
    @SuppressLint("CheckResult")
    public void deleteMeal(Meal meal){
        CalenderedMeal calenderedMeal = new CalenderedMeal(meal.getIdMeal(), date);
-       repository.deleteCalenderedMeal(calenderedMeal).subscribeOn(Schedulers.io()).subscribe(
-               () -> repository.removeMealFromDB(meal)
+       repository.deleteCalenderedMeal(calenderedMeal)
+               .subscribeOn(Schedulers.io())
+               .observeOn(Schedulers.io())
+               .subscribe(() -> {
+                   repository.removeMealFromDB(meal);
+                   FireStoreManager.deleteCalendarMeal(calenderedMeal);
+               }
        );
    }
 
@@ -84,6 +90,7 @@ public class PlannedPresenter {
                                     if (DateChecker.isDateInPast(meal.getDate())){
                                         repository.getMealById(meal.getIdMeal())
                                                 .subscribeOn(Schedulers.io())
+                                                .doOnSuccess( detailedMeal -> FireStoreManager.deleteCalendarMeal(new CalenderedMeal(detailedMeal.getIdMeal(), meal.getDate())))
                                                 .observeOn(Schedulers.io())
                                                         .subscribe(
                                                                 detailedMeal ->  deleteMealWithDate(detailedMeal, meal.getDate())

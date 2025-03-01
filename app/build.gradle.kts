@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.firebase.firestore)
     val nav_version = "2.8.7"
 
     implementation(libs.appcompat)

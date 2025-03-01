@@ -7,6 +7,7 @@ import com.example.tastyfood.model.Meal;
 import com.example.tastyfood.model.MealRepository;
 import com.example.tastyfood.model.database.CalenderedMeal;
 import com.example.tastyfood.model.database.FavMeal;
+import com.example.tastyfood.util.FireStoreManager;
 import com.example.tastyfood.util.UserValidation;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -27,6 +28,8 @@ public class DetailedMealPresenter {
         insertMealToDB(meal);
         CalenderedMeal calenderedMeal = new CalenderedMeal(meal.getIdMeal(), date);
         mealRepository.insertCalenderedMeal(calenderedMeal).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .doOnComplete( () -> FireStoreManager.saveCalendarMeal(calenderedMeal))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         () -> mealSaver.calendaredMealSuccess(),
@@ -50,21 +53,28 @@ public class DetailedMealPresenter {
 
     @SuppressLint("CheckResult")
     public void insertFavMeal(Meal meal){
+        FavMeal favMeal = new FavMeal(meal.getIdMeal());
         if (UserValidation.validateUser()){
             insertMealToDB(meal);
-        mealRepository.insertFavMeal(new FavMeal(meal.getIdMeal())).subscribeOn(Schedulers.io())
+            mealRepository.insertFavMeal(favMeal).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .doOnComplete(() -> FireStoreManager.saveFavMeal(favMeal))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         () -> mealSaver.insertingFavMealSuccess(),
                         error -> mealSaver.onFailed("There was an error occurred please try again")
-                );}
+                );
+        }
         else {
             mealSaver.onFailed("Please Sign up to enable this Feature");
         }
     }
     @SuppressLint("CheckResult")
     public void deleteFavMeal(Meal meal){
-        mealRepository.deleteFavMeal(new FavMeal(meal.getIdMeal())).subscribeOn(Schedulers.io())
+        FavMeal favMeal = new FavMeal(meal.getIdMeal());
+        mealRepository.deleteFavMeal(favMeal).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .doOnComplete(() -> FireStoreManager.deleteFavMeal(favMeal))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         () -> {
@@ -74,7 +84,6 @@ public class DetailedMealPresenter {
                         error -> mealSaver.onFailed("There was an error occurred please try again")
                 );
     }
-
     private void insertMealToDB(Meal meal){
         mealRepository.insertMeal(meal).subscribeOn(Schedulers.io())
                 .subscribe();
