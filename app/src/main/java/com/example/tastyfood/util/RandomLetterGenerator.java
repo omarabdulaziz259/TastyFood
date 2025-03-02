@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class RandomLetterGenerator {
     public static char getRandomLetter() {
-        String allowedLetters = "abcdefghijklmnoprstvwy"; // Excluding q, u, x, z
+        String allowedLetters = "abcdefghijklmnoprstvw"; // Excluding q, u, x, z
         Random random = new Random();
         return allowedLetters.charAt(random.nextInt(allowedLetters.length()));
     }

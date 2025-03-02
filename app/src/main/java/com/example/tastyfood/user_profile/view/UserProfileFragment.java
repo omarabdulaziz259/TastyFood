@@ -12,10 +12,8 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.tastyfood.mainActivity.presenter.MainActivityPresenter;
 import com.example.tastyfood.mainActivity.view.MainActivity;
 import com.example.tastyfood.R;
 import com.example.tastyfood.model.MealRepository;
@@ -41,8 +39,7 @@ public class UserProfileFragment extends Fragment implements UserProfileHandler 
 
 
     public static UserProfileFragment newInstance() {
-        UserProfileFragment fragment = new UserProfileFragment();
-        return fragment;
+        return new UserProfileFragment();
     }
 
     @Override
