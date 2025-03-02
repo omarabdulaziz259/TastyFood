@@ -148,12 +148,18 @@ public class PlannedFragment extends Fragment implements PlannedHandler {
 
     @Override
     public void onFailed(String msg) {
+        if (!isAdded() || getView() == null) {
+            return;
+        }
         plannedAdapter.setMealsList(new ArrayList<>());
         Snackbar.make(requireView(), msg, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
     public void btnDeleteFailed(String msg) {
+        if (!isAdded() || getView() == null) {
+            return;
+        }
         Snackbar.make(requireView(), msg, Snackbar.LENGTH_SHORT).show();
     }
 }
